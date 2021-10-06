@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
+import com.revature.models.AccountType;
+
 public class User {
 	private String login;
 	private String pass;
@@ -14,7 +16,7 @@ public class User {
 	private String address;
 	private String phone;
 	private int userID;
-	private AccountType type;
+	protected String type;
 	
 	public User() {
 	}
@@ -65,5 +67,8 @@ public class User {
 	public void setUserID(int tempInput)
 	{
 		this.userID = tempInput;
+	}
+	public void SetType(String typeInput) {
+		this.type = typeInput.toUpperCase();
 	}
 }

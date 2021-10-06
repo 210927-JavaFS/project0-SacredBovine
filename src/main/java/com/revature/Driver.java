@@ -1,5 +1,6 @@
 package com.revature;
 
+import com.revature.controllers.LoginController;
 import com.revature.models.Account;
 import com.revature.models.AccountHolder;
 import com.revature.models.User;
@@ -19,11 +20,12 @@ public class Driver {
 		
 		AccountHolder ah = new AccountHolder(account);
 		ah.GetAccounts();
-		
+		LoginController login = new LoginController();
+		ah = login.GetUser(); 
 		
 		AccountService acctService = new AccountService();
-		acctService.CreateNewUser(ah);
-		acctService.DisplayUserInfo(ah);
+		//acctService.CreateNewUser(ah);
+		//acctService.DisplayUserInfo(ah);
 		
 	}
 	

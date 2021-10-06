@@ -1,18 +1,19 @@
 package com.revature.models;
 
 import java.util.ArrayList;
+import com.revature.models.Account;
 
-
-
-
-public class AccountHolder extends User{
+public class AccountHolder extends User {
 	
-	private ArrayList<Account> accounts = new ArrayList<>();
+	ArrayList<Account> accounts = new ArrayList<Account>();
+	
 	
 	public AccountHolder() {
 		super();
+		//accounts = new ArrayList<Account>();
+		this.SetType("accountholder");
 	}
-	
+
 	public AccountHolder(Account account) {
 		accounts.add(account);
 	}
@@ -29,7 +30,7 @@ public class AccountHolder extends User{
 		for (int i=0;i<accounts.size();i++) System.out.println(accounts.get(i).DisplayAccount());	
 	}*/
 	
-	public ArrayList GetAccounts(){
+	public ArrayList<Account> GetAccounts(){
 		return accounts;
 	}
 }
