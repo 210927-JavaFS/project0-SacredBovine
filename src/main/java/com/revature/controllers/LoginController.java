@@ -4,7 +4,11 @@ import java.util.Scanner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.revature.models.User;
+
+import com.revature.controllers.AccountHolderController;
+
 import com.revature.services.LoginService;
 import com.revature.services.UserService;
 
@@ -17,7 +21,7 @@ public class LoginController {
 	private LoginService loginService = new LoginService();
 	private UserService userService = new UserService();
 	
-	public void menu() {
+	public void loginMenu() {
 		
 		System.out.println("<:Welcome to RevBank:> \n");
 		
@@ -25,9 +29,13 @@ public class LoginController {
 		int type = userService.getType(user); 
 		System.out.println(String.valueOf(type));
 		switch(type){
-			case 1 : AccountHolderController aHController = new AccountHolderController();
-				aHController.menu(user);
+			case 1 : 
+				AccountHolderController accountHolderController = new AccountHolderController();
+				accountHolderController.accountHolderMenu(user);
 				break ;
+			case 2 :
+				
+				
 		}
 				
 	}
@@ -37,7 +45,6 @@ public class LoginController {
 		User user = new User();
 		System.out.println("Do you have an existing account y/n?");
 		String input = scan.nextLine().toLowerCase().trim();
-		System.out.println(input+"!");
 		if (input.equals("y")) {
 			System.out.println("What is your e-mail address?");
 			input = scan.nextLine().toLowerCase();

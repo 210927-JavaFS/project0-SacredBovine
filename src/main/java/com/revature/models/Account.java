@@ -47,5 +47,8 @@ public class Account {
 	public int getID() {
 		return accountID;
 	}
+	public void setID(int ID) {
+		this.accountID = ID;
+	}
 	
 }

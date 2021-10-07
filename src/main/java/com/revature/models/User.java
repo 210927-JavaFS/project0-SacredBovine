@@ -19,65 +19,68 @@ public class User {
 	protected int type;
 	private ArrayList<Account> accounts;
 	
-	public User() {
-		
-	}
+	// Constructors
+	public User() {}
 	
+	// Getters
+	public ArrayList<Account> getAccounts(){
+		return accounts;
+	}
 	public String getName() {
 		String fullName = firstName+" "+lastName;
 		return fullName;
 	}
-	
-	public String geteMail() {
-		return eMail;
-	}
-	
 	public String getAddress() {
 		return address;
 	}
-	
+	public String geteMail() {
+		return eMail;
+	}
 	public String getPhone() {
 		return phone;
 	}
-	
+	public int getType() {
+		return type;
+	}
 	public int getUserID() {
 		return userID;
 	}
 	
-	public int getType() {
-		return type;
+	// Setters
+	public void setAddress(String addressInput) {
+		this.address = addressInput;
 	}
-	
+	public void seteMail(String eMailInput) {
+		this.eMail = eMailInput;
+	}
 	public void setName(String first, String last)
 	{
 		this.firstName = first;
 		this.lastName = last;
 	}
-	
-	public void seteMail(String eMailInput) {
-		this.eMail = eMailInput;
-	}
-	
 	public void setPass(String password) {
 		this.pass = password;
 	}
-	
-	public void setAddress(String addressInput) {
-		this.address = addressInput;
-	}
-	
 	public void setPhone(String phoneInput) {
 		this.phone = phoneInput;
-	}
-	
-	public void setUserID(int tempInput)
-	{
-		this.userID = tempInput;
 	}
 	public void setType(int typeInput) {
 		this.type = typeInput ;
 	}
-	public ArrayList<Account> getAccounts(){
-		return accounts;
+	public void setUserID(int tempInput)
+	{
+		this.userID = tempInput;
+	}	
+	
+	// foobars
+	public void setAccounts(ArrayList<Account> tests) {
+		this.accounts = tests;
 	}
+	public void addAccount(Account test) { // only for testing right now
+		accounts.add(test);
+	}
+	public void removeAccount(Account test) { // only for testing right now
+		accounts.remove(test);
+	}
+	
 }

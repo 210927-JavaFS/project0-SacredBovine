@@ -1,11 +1,6 @@
 package com.revature;
 
 import com.revature.controllers.LoginController;
-import com.revature.models.Account;
-import com.revature.models.User;
-import com.revature.notusing.AccountHolder;
-import com.revature.services.AccountService;
-
 
 public class Driver {
 	
@@ -18,11 +13,10 @@ public class Driver {
 		account.GetBallance();
 		account.Deposit(-1);*/
 		
-		User ah = new User();
-		ah.getAccounts();
-		LoginController login = new LoginController();
+	
+		LoginController login = new LoginController(); 
 		
-		login.menu();
+		login.loginMenu(); // launch first menu
 	
 		
 	}
