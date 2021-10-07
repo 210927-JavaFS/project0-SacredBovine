@@ -1,28 +1,26 @@
 package com.revature.models;
 
-import java.util.ArrayDeque;
+import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
-import com.revature.models.AccountType;
+import com.revature.models.Account;
 
 public class User {
-	private String login;
 	private String pass;
 	private String firstName;
 	private String lastName;
 	private String eMail;
 	private String address;
 	private String phone;
+	private int employeeID;
 	private int userID;
-	protected String type;
+	protected int type;
+	private ArrayList<Account> accounts;
 	
 	public User() {
-	}
 		
-	public User(String userName) {
-		login = userName;
 	}
 	
 	public String getName() {
@@ -46,6 +44,10 @@ public class User {
 		return userID;
 	}
 	
+	public int getType() {
+		return type;
+	}
+	
 	public void setName(String first, String last)
 	{
 		this.firstName = first;
@@ -54,6 +56,10 @@ public class User {
 	
 	public void seteMail(String eMailInput) {
 		this.eMail = eMailInput;
+	}
+	
+	public void setPass(String password) {
+		this.pass = password;
 	}
 	
 	public void setAddress(String addressInput) {
@@ -68,7 +74,10 @@ public class User {
 	{
 		this.userID = tempInput;
 	}
-	public void SetType(String typeInput) {
-		this.type = typeInput.toUpperCase();
+	public void setType(int typeInput) {
+		this.type = typeInput ;
+	}
+	public ArrayList<Account> getAccounts(){
+		return accounts;
 	}
 }

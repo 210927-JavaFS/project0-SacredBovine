@@ -9,7 +9,7 @@ import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
+// takes User identifing information (probably e-mail address) and fetches that user from the database returning the User Object it creates from it.
 public class UserDAO {
 /*
 	private static Logger log = LoggerFactory.getLogger(UserDAO.class);

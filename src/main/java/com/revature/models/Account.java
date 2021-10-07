@@ -3,41 +3,49 @@ package com.revature.models;
 public class Account {
 	
 	private int accountID;
-	private double ballance;
+	private double balance;
 	private String type;
 
 	public Account() {
 	}
 	
-	public Account(double initBallance, String acctType) {
+	public Account(double initBalance, String acctType) {
 		String tempType = acctType.toLowerCase();
 		if(tempType == "savings" || tempType == "checking") {
-			this.Deposit(initBallance);
+			this.setBalance(initBalance);
 			type = tempType;
-			System.out.println("You have opened a new "+type+" account with a ballance of $"+ ballance);
+			System.out.println("You have opened a new "+type+" account with a balance of $"+ balance);
+		}
+		else {
+			System.out.println("Improper account type. Please indicate checking or savings.");
 		}
 	}
 		
-	public void Deposit(double deposit) {
-		if (deposit >0) {
-			ballance += deposit;
-			//System.out.println("You have deposited $"+deposit+" into your account.");
-			//System.out.println("The new ballance of this account is $"+ballance);
-		}
-		else System.out.println("Improper deposit ammount.");
+	public String getType() {
+		return type;
 	}
 	
-	public void Withdraw(double withdrawl) {
-		if (withdrawl>0 && ballance-withdrawl >0) ballance-=withdrawl;
-		else System.out.println("Could not complete transaction.");
+	public void setType(String newType) {
+		this.type = newType;
 	}
 	
-	public void GetBallance() {
-		System.out.println("This account's current ballance is: $"+ballance);
+	public void displayBalance() {
+		System.out.println("This account's current balance is: $"+balance);
+	}
+	public double getBalance() {
+		return balance;
 	}
 	
-	public String DisplayAccount() {
-		String acct = "Account # "+accountID+" with a ballance of $"+ballance+".";
+	public void setBalance(double newBalance) {
+		this.balance = newBalance;
+	}
+	
+	public String displayAccount() {
+		String acct = "Account # "+accountID+" with a balance of $"+balance+".";
 		return acct;
 	}
+	public int getID() {
+		return accountID;
+	}
+	
 }
