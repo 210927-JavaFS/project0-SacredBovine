@@ -1,5 +1,5 @@
 CREATE TABLE accounts (
-	account_number SERIAL,
+	account_number SERIAL PRIMARY KEY,
 	account_type VARCHAR(9),
 	balance MONEY
 );
