@@ -2,7 +2,7 @@ CREATE TABLE users (
 	user_id SERIAL PRIMARY KEY, 
 	password_key VARCHAR(50) NOT NULL,
 	email_address VARCHAR(30) UNIQUE NOT NULL,
-	home_address VARCHAR(150),
+--	home_address VARCHAR(150),
 	phone_number VARCHAR(150)
 	/* home address and user name will be separate tables*/
 );
@@ -23,3 +23,5 @@ CREATE TABLE addresses (
 	country VARCHAR(50)
 );
 --ALTER TABLE users DROP COLUMN home_address;
+ALTER TABLE users ADD COLUMN address_id INTEGER;
+

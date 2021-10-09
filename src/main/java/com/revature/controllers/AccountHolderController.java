@@ -39,13 +39,78 @@ public class AccountHolderController {
 			user.setAccounts(accounts);
 			// I have two accounts to test services with YAY!
 		}
-		System.out.println("Hello "+user.getName()+" Please choose from the following options. \n 1: Check account balances \n 2: Make a withdrawl \n 3: Make a deposit"+
-		"\n 4: Transfer funds to another account \n 5: Logout ");
+		System.out.println("Hello "+user.getName()+" Please choose from the following options. \n\n "
+				+ "   1: Check account balances \n "
+				+ "   2: Make a withdrawl \n "
+				+ "   3: Make a deposit \n"
+				+ "   4: Transfer funds to another account \n "
+				+ "   5: Logout ");
 		input = scan.nextLine().trim();
 		
 		// "Therrre'sss GOT tO... BE aa bETteR WAy" - the Shat
 		
-		if(input.equals("1")) { // Display account balances
+		switch (input) {
+			case "1" :
+			{
+				for(int i = 0; i < accounts.size(); i++) System.out.println(accountService.toString(accounts.get(i)));
+				accountHolderMenu(user);
+				break;
+			}
+			case "2" :
+			{
+				System.out.println("Which account would you like to withdraw from? ");
+			
+				for(int i = 0; i < accounts.size(); i++) System.out.println(accountService.toString(accounts.get(i)));
+				int index = Integer.valueOf(scan.nextLine());
+				
+				System.out.println("How much would you like to withdraw?");
+				double amount = Double.valueOf(scan.nextLine());
+				
+				accountService.withdraw(accounts.get(index),amount);				
+			
+				accountHolderMenu(user);
+				break;
+			}
+			case "3" :
+			{
+				System.out.println("Which account would you like to deposit to?");
+				for(int i = 0; i < accounts.size(); i++) System.out.println(accountService.toString(accounts.get(i)));
+				int index = Integer.valueOf(scan.nextLine());
+					
+				System.out.println("How much would you like to deposit?");
+				double amount = Double.valueOf(scan.nextLine());
+				
+				accountService.deposit(accounts.get(index),amount);				
+					
+				accountHolderMenu(user);
+				break;
+			}
+			case "4" :
+			{
+				ArrayList<Account> transfers = new ArrayList<>();
+				
+				System.out.println("Which account would you like to transfer the funds from?");
+				for(int i = 0; i < accounts.size(); i++) System.out.println(accountService.toString(accounts.get(i)));
+				int accountFrom = Integer.valueOf(scan.nextLine());
+				transfers.add(accounts.get(accountFrom));
+					
+				System.out.println("How much would you like to transfer?");
+				double amount = Double.valueOf(scan.nextLine());
+					
+				System.out.println("Which account would you like to transfer the funds to?");
+				for(int i = 0; i < accounts.size(); i++) System.out.println(accountService.toString(accounts.get(i)));
+				int accountTo = Integer.valueOf(scan.nextLine());
+				transfers.add(accounts.get(accountTo));
+					
+				accountService.transfer(transfers, amount);
+				accountHolderMenu(user);
+				
+				break;
+			}
+		}
+			System.out.println("Thank you for banking with us today. Goodbye.");
+		
+		/*if(input.equals("1")) { // Display account balances
 			for(int i = 0; i < accounts.size(); i++) System.out.println(accountService.toString(accounts.get(i)));
 			accountHolderMenu(user);
 		}
@@ -99,6 +164,7 @@ public class AccountHolderController {
 		else {
 			System.out.println("Invalid input \n Please use numbers only");
 			accountHolderMenu(user);
-		}	
+		}*/	
+		
 	}
 }

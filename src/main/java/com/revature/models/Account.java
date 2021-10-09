@@ -1,54 +1,61 @@
 package com.revature.models;
 
+import java.util.Objects;
+
 public class Account {
 	
 	private int accountID;
 	private double balance;
 	private String type;
+// Constructors
+	public Account() { 
+		super();
+	}
+	public Account(double initBalance, String accountType) { // Will not supply ID. Only occurs once update to DB has been made
+		super();
+		balance=initBalance;
+		type=accountType;
+	}
 
-	public Account() {
-	}
-	
-	public Account(double initBalance, String acctType) {
-		String tempType = acctType.toLowerCase();
-		if(tempType == "savings" || tempType == "checking") {
-			this.setBalance(initBalance);
-			type = tempType;
-			System.out.println("You have opened a new "+type+" account with a balance of $"+ balance);
-		}
-		else {
-			System.out.println("Improper account type. Please indicate checking or savings.");
-		}
-	}
-		
-	public String getType() {
-		return type;
-	}
-	
-	public void setType(String newType) {
-		this.type = newType;
-	}
-	
-	public void displayBalance() {
-		System.out.println("This account's current balance is: $"+balance);
-	}
+// Getters
 	public double getBalance() {
 		return balance;
-	}
-	
-	public void setBalance(double newBalance) {
-		this.balance = newBalance;
-	}
-	
-	public String displayAccount() {
-		String acct = "Account # "+accountID+" with a balance of $"+balance+".";
-		return acct;
 	}
 	public int getID() {
 		return accountID;
 	}
+	public String getType() { // Used for access level tracking
+		return type;
+	}
+
+// Setters
+	public void setBalance(double newBalance) {
+		this.balance = newBalance;
+	}	
 	public void setID(int ID) {
 		this.accountID = ID;
+	}
+	public void setType(String newType) { // Used for access level tracking
+		this.type = newType;
+	}
+
+// Overrides
+	@Override
+	public int hashCode() {
+		return Objects.hash(accountID, balance, type);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Account other = (Account) obj;
+		return accountID == other.accountID
+				&& Double.doubleToLongBits(balance) == Double.doubleToLongBits(other.balance)
+				&& Objects.equals(type, other.type);
 	}
 	
 }
