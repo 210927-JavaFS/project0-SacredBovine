@@ -6,7 +6,8 @@ import com.revature.models.Name;
 
 public interface NameDAO {
 	
-	public List<Name> getAll() ;
+	public List<Name> getAll();
 	public Name findById(int id);
-
+	public boolean addName(Name name);
+	public boolean updateName(Name name);
 }

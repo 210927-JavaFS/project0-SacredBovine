@@ -1,10 +1,11 @@
 CREATE TABLE users (
-	user_id SERIAL PRIMARY KEY, 
-	password_key VARCHAR(50) NOT NULL,
-	email_address VARCHAR(30) UNIQUE NOT NULL,
---	home_address VARCHAR(150),
-	phone_number VARCHAR(150)
-	/* home address and user name will be separate tables*/
+	user_id SERIAL PRIMARY KEY,
+	name_id INTEGER,
+	password_key VARCHAR(256 NOT NULL,
+	email_address VARCHAR(50) UNIQUE NOT NULL,
+	address_id INTEGER,
+	phone_number VARCHAR(15),
+	user_type Integer
 );
 
 CREATE TABLE names (
@@ -22,6 +23,5 @@ CREATE TABLE addresses (
 	zipcode VARCHAR(10),
 	country VARCHAR(50)
 );
---ALTER TABLE users DROP COLUMN home_address;
-ALTER TABLE users ADD COLUMN address_id INTEGER;
+
 

@@ -22,7 +22,7 @@ public class User {
 	protected int type;
 	private ArrayList<Account> accounts;
 	
-	// Constructors
+// Constructors
 	public User() {}
 	public User(String pass, String firstName, String lastName, String eMail, String address, String phone,
 			int employeeID, int type, ArrayList<Account> accounts) {
@@ -38,8 +38,7 @@ public class User {
 		this.accounts = accounts;
 	}
 	
-	// Getters
-	
+// Getters
 	public ArrayList<Account> getAccounts(){
 		return accounts;
 	}
@@ -47,11 +46,20 @@ public class User {
 		String fullName = firstName+" "+lastName;
 		return fullName;
 	}
+	public String getFirstName() {
+		return firstName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
 	public String getAddress() {
 		return address;
 	}
-	public String geteMail() {
+	public String getEMail() {
 		return eMail;
+	}
+	public String getPass() {
+		return pass;
 	}
 	public String getPhone() {
 		return phone;
@@ -63,17 +71,17 @@ public class User {
 		return userID;
 	}
 	
-	// Setters
+// Setters
 	public void setAddress(Address addressInput) {
 		this.address = addressInput.toString();
 	}
-	public void seteMail(String eMailInput) {
+	public void setEMail(String eMailInput) {
 		this.eMail = eMailInput;
 	}
-	public void setName(String first, String last)
+	public void setName(Name name)
 	{
-		this.firstName = first;
-		this.lastName = last;
+		this.firstName = name.getFirstName();
+		this.lastName = name.getLastName();
 	}
 	public void setPass(String password) {
 		this.pass = password;
@@ -84,10 +92,12 @@ public class User {
 	public void setType(int typeInput) {
 		this.type = typeInput ;
 	}
-	public void setUserID(int tempInput)
+	public void setUserID(int idInput)
 	{
-		this.userID = tempInput;
+		this.userID = idInput;
 	}
+
+// Overrides	
 	@Override
 	public int hashCode() {
 		return Objects.hash(accounts, address, eMail, employeeID, firstName, lastName, pass, phone, type, userID);

@@ -13,7 +13,7 @@ import com.revature.utils.ConnectionUtil;
 
 public class AddressDAOImpl implements AddressDAO{
 
-	@Override
+/*	
 	public List<Address> getAll() {
 		try(Connection conn = ConnectionUtil.getConnection()){ //try-with-resources 
 			String sql = "SELECT * FROM addresses;";
@@ -45,7 +45,8 @@ public class AddressDAOImpl implements AddressDAO{
 			e.printStackTrace();
 		}
 		return null;
-	}
+	}*/
+	@Override
 	public List<Address> getAll() {
 		try(Connection conn = ConnectionUtil.getConnection()){ //try-with-resources 
 			String sql = "SELECT * FROM names;";

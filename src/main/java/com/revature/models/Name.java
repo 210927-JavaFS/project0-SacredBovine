@@ -6,14 +6,23 @@ public class Name {
 	private String firstName;
 	private String lastName;
 
-// Getters
+// Constructors	
+	public Name() {
+		super();
+	}
+	public Name(String first, String last) {
+		this.firstName = first;
+		this.lastName = last;
+	}
+	
+// Getters	
 	public String getFirstName() {
 		return firstName;
 	}
 	public String getLastName() {
 		return lastName;
 	}
-	public int getId() {
+	public int getID() {
 		return id;
 	}
 

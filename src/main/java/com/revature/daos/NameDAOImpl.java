@@ -62,41 +62,45 @@ public class NameDAOImpl implements NameDAO{
 		}
 		return null;
 	}
-/*
-	@Override
-	public boolean updateHome(Home home) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	@Override
-	public boolean addHome(Home home) {
+	public boolean addName(Name name) {
 		try(Connection conn = ConnectionUtil.getConnection()){
-			
-			String sql = "INSERT INTO homes (home_name, home_number, home_street, home_city, home_region, home_zip, home_country, residents) "
-					+ "VALUES (?,?,?,?,?,?,?,?);";
-			
-			int count = 0;
-			
+			String sql = "INSERT INTO names (first_name, last_name "
+					+ "VALUES (?,?);";
 			PreparedStatement statement = conn.prepareStatement(sql);
-			
-			statement.setString(++count, home.getName());
-			statement.setString(++count, home.getStreetNumber());
-			statement.setString(++count, home.getStreetName());
-			statement.setString(++count, home.getCity());
-			statement.setString(++count, home.getRegion());
-			statement.setString(++count, home.getZip());
-			statement.setString(++count, home.getCountry());
-			statement.setInt(++count, home.getResidents());
-			
+			int count=0;
+			statement.setString(++count, name.getFirstName());
+			statement.setString(++count, name.getLastName());
 			statement.execute();
 			
 			return true;
-
-		}catch(SQLException e) {
+		}
+		catch(SQLException e) 
+		{
 			e.printStackTrace();
 		}
 		return false;
 	}
-*/
+	
+	public boolean updateName(Name name) {
+		try(Connection conn = ConnectionUtil.getConnection()){
+			String sql = "UPDATE names SET first_name = ?, last_name = ? where name_id = ?; "
+			+ "VALUES (?,?,?);";
+			PreparedStatement statement = conn.prepareStatement(sql);
+			
+			int count = 0;
+			statement.setString(++count, name.getFirstName());
+			statement.setString(++count, name.getLastName());
+			statement.setString(++count, String.valueOf(name.getID()));
+			statement.execute();
+			
+			return true;
+		}
+		catch(SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		return false;
+	}
 }
