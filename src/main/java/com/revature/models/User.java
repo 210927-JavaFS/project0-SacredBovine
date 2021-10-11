@@ -1,5 +1,6 @@
 package com.revature.models;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -7,52 +8,47 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
-import com.revature.models.Account;
-
 public class User {
 
-	private String pass;
-	private String firstName;
-	private String lastName;
-	private String eMail;
-	private String address;
-	private String phone;
-	private int employeeID;
 	private int userID;
+	private String pass;
+	private Name name;
+	private String eMail;
+	private Address address;
+	private String phone;	
 	protected int type;
-	private ArrayList<Account> accounts;
+	private Account checkingAccount;
+	private Account savingsAccount;
+	private Account jointAccount;
 	
 // Constructors
 	public User() {}
-	public User(String pass, String firstName, String lastName, String eMail, String address, String phone,
-			int employeeID, int type, ArrayList<Account> accounts) {
+	public User(String eMailInput, String passInput, Name nameInput, Address addressInput, String phoneInput, // Without an account
+			int type) {
 		super();
-		this.pass = pass;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.eMail = eMail;
-		this.address = address;
-		this.phone = phone;
-		this.employeeID = employeeID;
+		this.pass = passInput;
+		this.name = nameInput;
+		this.eMail = eMailInput;
+		this.address = addressInput;
+		this.phone = phoneInput;
 		this.type = type;
-		this.accounts = accounts;
+	}
+	public User(String eMailInput, String passInput, Name nameInput, Address addressInput, String phoneInput, // With an List of Accounts. Probably won't use
+			int type, ArrayList<Account> accountsInput) {
+		super();
+		this.pass = passInput;
+		this.name = nameInput;
+		this.eMail = eMailInput;
+		this.address = addressInput;
+		this.phone = phoneInput;
+		this.type = type;
 	}
 	
 // Getters
-	public ArrayList<Account> getAccounts(){
-		return accounts;
+	public Name getName() {
+		return name;
 	}
-	public String getName() {
-		String fullName = firstName+" "+lastName;
-		return fullName;
-	}
-	public String getFirstName() {
-		return firstName;
-	}
-	public String getLastName() {
-		return lastName;
-	}
-	public String getAddress() {
+	public Address getAddress() {
 		return address;
 	}
 	public String getEMail() {
@@ -70,18 +66,33 @@ public class User {
 	public int getID() {
 		return userID;
 	}
-	
+	public Account getCheckingAccount() {
+		return checkingAccount;
+	}
+	public Account getSavingsAccount() {
+		return savingsAccount;
+	}
+	public Account getJointAccount() {
+		return jointAccount;
+	}
+	public List<Account> getAccounts(){
+		List<Account> accounts = new ArrayList<>();
+		accounts.add(checkingAccount);
+		accounts.add(savingsAccount);
+		accounts.add(jointAccount);
+		return accounts;
+	}
+
 // Setters
 	public void setAddress(Address addressInput) {
-		this.address = addressInput.toString();
+		this.address = addressInput;
 	}
 	public void setEMail(String eMailInput) {
 		this.eMail = eMailInput;
 	}
-	public void setName(Name name)
+	public void setName(Name nameInput)
 	{
-		this.firstName = name.getFirstName();
-		this.lastName = name.getLastName();
+		this.name = nameInput;
 	}
 	public void setPass(String password) {
 		this.pass = password;
@@ -96,11 +107,21 @@ public class User {
 	{
 		this.userID = idInput;
 	}
+	public void setCheckingAccount(Account checkingAccount) {
+		this.checkingAccount = checkingAccount;
+	}
+	public void setSavingsAccount(Account savingsAccount) {
+		this.savingsAccount = savingsAccount;
+	}
+	public void setJointAccount(Account jointAccount) {
+		this.jointAccount = jointAccount;
+	}
 
 // Overrides	
-	@Override
+@Override
 	public int hashCode() {
-		return Objects.hash(accounts, address, eMail, employeeID, firstName, lastName, pass, phone, type, userID);
+		return Objects.hash(address, checkingAccount, eMail, jointAccount, name, pass, phone, savingsAccount, type,
+				userID);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -111,22 +132,29 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		return Objects.equals(accounts, other.accounts) && Objects.equals(address, other.address)
-				&& Objects.equals(eMail, other.eMail) && employeeID == other.employeeID
-				&& Objects.equals(firstName, other.firstName) && Objects.equals(lastName, other.lastName)
-				&& Objects.equals(pass, other.pass) && Objects.equals(phone, other.phone) && type == other.type
-				&& userID == other.userID;
-	}	
-	
-	// foobars
-	/*public void setAccounts(ArrayList<Account> tests) {
-		this.accounts = tests;
+		return Objects.equals(address, other.address) && Objects.equals(checkingAccount, other.checkingAccount)
+				&& Objects.equals(eMail, other.eMail) && Objects.equals(jointAccount, other.jointAccount)
+				&& Objects.equals(name, other.name) && Objects.equals(pass, other.pass)
+				&& Objects.equals(phone, other.phone) && Objects.equals(savingsAccount, other.savingsAccount)
+				&& type == other.type && userID == other.userID;
 	}
-	public void addAccount(Account test) { // only for testing right now
-		accounts.add(test);
+	@Override
+	public String toString() {
+		String output = new String(" User Type: ");
+		switch(this.type) {
+			case 1 :
+				output+="Customer\n";
+				break;
+			case 2 :
+				output+="Employee\n";
+				break;
+			case 3 :
+				output+="Bank Administrator\n";
+				break;
+		}
+		output += " User Name: " + this.getName() + "\n User Email Address: " + this.getEMail() +" \n User Password: " + this.getPass()+ "\n User Phone Number: "+this.getPhone() 
+			+ "\n User Address: \n" + this.getAddress().toString() + "\n";
+		return output;
 	}
-	public void removeAccount(Account test) { // only for testing right now
-		accounts.remove(test);
-	}*/
 	
-}
+}	

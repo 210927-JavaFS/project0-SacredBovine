@@ -1,5 +1,8 @@
 package com.revature.models;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import java.util.Objects;
 
 public class Account {
@@ -56,6 +59,9 @@ public class Account {
 		return accountID == other.accountID
 				&& Double.doubleToLongBits(balance) == Double.doubleToLongBits(other.balance)
 				&& Objects.equals(type, other.type);
+	}
+	public String toString() {
+		return "Account #: " + String.valueOf(accountID) + " Type : " + type + " Balance : $" + String.valueOf(balance) +" \n";
 	}
 	
 }

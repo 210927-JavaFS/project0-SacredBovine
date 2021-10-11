@@ -1,5 +1,9 @@
 package com.revature.models;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
+
 public class Address {
 	
 	private int addressID;
@@ -25,7 +29,15 @@ public class Address {
 		this.zipcode = zipcode;
 		this.country = country;
 	}
-
+	public Address(String streetNumber, String streetName, String city, String region, String zipcode, String country) {
+		super();
+		this.streetNumber = streetNumber;
+		this.streetName = streetName;
+		this.city = city;
+		this.region = region;
+		this.zipcode = zipcode;
+		this.country = country;
+	}
 // Getters	
 	public int getAddressID() {
 		return addressID;
@@ -75,7 +87,7 @@ public class Address {
 // Overrides	
 	@Override
 	public String toString() {
-		String address = streetNumber+" "+streetName+" \n"+city+" ,"+region+" \n"+country;
+		String address = " " + streetNumber + " " + streetName + " \n " + city + " ," + region + " \n " + country;
 		return address;
 	}
 

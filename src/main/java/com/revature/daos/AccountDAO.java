@@ -1,11 +1,5 @@
 package com.revature.daos;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.revature.models.Account;
@@ -17,6 +11,6 @@ public interface AccountDAO {
 	public Account findByAccountID(int id);
 	public List<Account> findByUser(User user);
 	public boolean updateAccount(Account account);
-	public boolean addAccount(Account account, User user);
+	public int addAccount(Account account);
 	
 }

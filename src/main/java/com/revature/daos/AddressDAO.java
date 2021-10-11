@@ -9,6 +9,6 @@ public interface AddressDAO {
 	public List<Address> getAll();
 	public Address findByID(int id);
 	public boolean updateAddress(Address address);
-	public boolean addAddress(Address address);
+	public int addAddress(Address address);
 	
 }

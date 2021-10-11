@@ -1,5 +1,10 @@
 package com.revature.models;
 
+import java.util.Objects;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
+
 public class Name {
 
 	private int id;
@@ -41,6 +46,21 @@ public class Name {
 	@Override
 	public String toString() {
 		return firstName+" "+lastName;
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(firstName, id, lastName);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Name other = (Name) obj;
+		return Objects.equals(firstName, other.firstName) && id == other.id && Objects.equals(lastName, other.lastName);
 	}
 	
 }

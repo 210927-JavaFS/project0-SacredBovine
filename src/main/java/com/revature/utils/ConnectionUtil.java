@@ -7,9 +7,6 @@ import java.sql.SQLException;
 public class ConnectionUtil {
 
 	public static Connection getConnection() throws SQLException {
-		// For many frameworks using JDBC or operating with JDBC it is necessary to
-		// "register" the driver
-		// you are using to make the framework aware of it.
 		try {
 			Class.forName("org.postgresql.Driver");
 		} catch (ClassNotFoundException e) {

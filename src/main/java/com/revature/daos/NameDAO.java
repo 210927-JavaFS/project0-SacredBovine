@@ -8,6 +8,6 @@ public interface NameDAO {
 	
 	public List<Name> getAll();
 	public Name findById(int id);
-	public boolean addName(Name name);
+	public int addName(Name name);
 	public boolean updateName(Name name);
 }
