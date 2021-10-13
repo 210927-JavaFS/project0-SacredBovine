@@ -22,16 +22,14 @@ public class TellerController extends AccountHolderController{
 	private UserService userService = new UserService();
 	
 	public void decisionMenu(User user) { // Let's an employee choose the employee or customer portal
-		if (user.getAccounts().size() > 0) {
-			System.out.println("Would you like to login as: \n 1: Employee \n 2: Personal");
-			switch(scan.nextLine().toLowerCase()) {
-				case "1" :
-					TellerControllerMenu(user);
-					break;
-				case "2" : 
-					accountHolderMenu(user);
-					break;
-			}					
+		System.out.println("Would you like to login as: \n   1: Employee \n   2: Personal");
+		switch(scan.nextLine().toLowerCase().trim()) {
+			case "1" :
+				TellerControllerMenu(user);
+				break;
+			case "2" : 
+				accountHolderMenu(user);
+				break;					
 		}
 	}
 	
@@ -39,38 +37,38 @@ public class TellerController extends AccountHolderController{
 		int input = -1;
 		do {
 			System.out.println("Hello "+user.getName()+"\n Would you like to review current account requests? y/n");
-				switch(String.valueOf(scan.nextLine()).toLowerCase()) {
+				switch(String.valueOf(scan.nextLine()).toLowerCase().trim()) {
 					case "y" :
 						List<Request> requests = requestService.getRequests();
 						for (int i = 0; i < requests.size(); i++ ) {
 							System.out.println("New account request : " + String.valueOf(i+1) + requests.get(i).toString());
-			
-							System.out.println("Input the request number ('0' to exit) : ");
-							input = scan.nextInt()-1;
-							if (input >= 0) {
-								Request request = requests.get(input);
-								System.out.println(" You input :" + String.valueOf(input)+ " \n");
-								System.out.println(requests.get(input).toString());
-								User requestUser = userService.getByID(request.getRequestUserID());
-								switch (request.getMessage()) {
-									case "1" : { // create checking account and assign to user
-										Account account = accountService.createAccount(1);
-										userService.assignAccount(requestUser, account);
+						}
+						System.out.println("Input the request ID you would like to approve ('0' to exit) : ");
+						input = scan.nextInt()-1;
+						if (input >= 0) {
+							Request request = requests.get(input);
+							System.out.println(" You input :" + String.valueOf(input+1)+ " \n");
+							System.out.println(requests.get(input).toString());
+							User requestUser = userService.getByID(request.getRequestUserID());
+							switch (request.getMessage()) {
+								case "1" : { // create checking account and assign to user
+									Account account = accountService.createAccount(requestUser, 1);
 										requestService.closeRequest(request);
-										break;
-									}
-									case "2": { // create savings account and assign to user
-										Account account = accountService.createAccount(2);
-										userService.assignAccount(requestUser, account);
+									break;
+								}
+								case "2": { // create savings account and assign to user
+									Account account = accountService.createAccount(requestUser, 2);
+									if(userService.assignAccount(requestUser, account)) {
 										requestService.closeRequest(request);
-										break;
 									}
-									case "3": { // create joint account and assign to user
-										Account account = accountService.createAccount(3);
-										userService.assignAccount(requestUser, account);
+									break;
+								}
+								case "3": { // create joint account and assign to user
+									Account account = accountService.createAccount(requestUser, 3);
+									if(userService.assignAccount(requestUser, account)) {
 										requestService.closeRequest(request);
-										break;
 									}
+									break;
 								}
 							}
 						}

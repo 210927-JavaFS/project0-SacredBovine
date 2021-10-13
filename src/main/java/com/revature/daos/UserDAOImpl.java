@@ -37,7 +37,9 @@ public class UserDAOImpl implements UserDAO {
 				user.setPass(result.getString("password_key"));
 				user.setEMail(result.getString("email_address"));
 				user.setAddress(addressDAO.findByID(result.getInt("address_id")));
+				user.setType(result.getInt("user_type"));
 				user.setPhone(result.getString("phone_number"));
+				
 				users.add(user);
 			}
 			return users;
@@ -49,7 +51,7 @@ public class UserDAOImpl implements UserDAO {
 		return null;
 	}
 	
-	public int addUser(User user) {
+	public boolean addUser(User user) {
 		try(Connection conn = ConnectionUtil.getConnection()){
 			String sql = "INSERT INTO users (name_id, password_key, email_address, address_id, phone_number, user_type, new_user_flag)"
 					+ "VALUES (?,?,?,?,?,?,TRUE);";
@@ -62,34 +64,12 @@ public class UserDAOImpl implements UserDAO {
 			statement.setString(++count, user.getPhone());
 			statement.setInt(++count, user.getType());
 			statement.execute();
-			
-			sql = "SELECT user_id FROM users WHERE new_user_flag = TRUE AND email_address= ? AND password_key = ?;";
-			statement = conn.prepareStatement(sql);
-			count = 0;
-			statement.setString(++count, user.getEMail());
-			statement.setString(++count, user.getPass());
-			ResultSet result = statement.executeQuery();
-			
-			int userID = -1;
-			if(result.next()) {
-				userID = result.getInt(1);
-			}
-			else System.out.println("Could not fetch user id"); 
-			
-			if (userID >= 0) {
-				sql = "UPDATE users SET new_user_flag = FALSE WHERE user_id = ?;";
-				statement = conn.prepareStatement(sql);
-				statement.setInt(1, userID);
-				statement.execute();
-			} 
-			else System.out.println("User id < 0");
-						
-			return userID;
+			return true;
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
 		}
-		return 0;
+		return false;
 	}
 	
 	public User getByID(int id) {
@@ -112,15 +92,6 @@ public class UserDAOImpl implements UserDAO {
 				user.setAddress(addressDAO.findByID(result.getInt("address_id")));
 				user.setPhone(result.getString("phone_number"));
 				user.setType(result.getInt("user_type"));
-				int checking = result.getInt("checking_account");
-				int savings = result.getInt("savings_account");
-				int joint = result.getInt("joint_account");
-				System.out.println("checking : " + String.valueOf(checking) + "\n "
-						+ "savings : " + String.valueOf(savings)+ "\n "
-						+ "checking : " + String.valueOf(joint)+ "\n ");
-				user.setCheckingAccount(accountDAO.findByAccountID(checking));
-				user.setSavingsAccount(accountDAO.findByAccountID(result.getInt("savings_account")));
-				user.setJointAccount(accountDAO.findByAccountID(result.getInt("joint_account")));
 			}
 			return user;
 		}catch (SQLException e) {
@@ -141,12 +112,6 @@ public class UserDAOImpl implements UserDAO {
 			int count = 0;
 			statement.setString(++count, user.getPass());
 			statement.setString(++count, user.getEMail());
-			/*if(user.getCheckingAccount().getID() > 10000000) statement.setInt(++count, user.getCheckingAccount().getID());
-			else statement.setboolean(++count, 0);
-			if(user.getSavingsAccount().getID() > 10000000) statement.setInt(++count, user.getSavingsAccount().getID());
-			else statement.setInt(++count, 0);
-			if(user.getJointAccount().getID() > 10000000) statement.setInt(++count, user.getJointAccount().getID());
-			else statement.setInt(++count, 0);*/
 			statement.setInt(++count, user.getID());
 			statement.execute();
 			
@@ -158,47 +123,10 @@ public class UserDAOImpl implements UserDAO {
 			return true;
 		}
 		catch(SQLException e) {
-			System.out.println("Didn't get connection \n");
 			e.printStackTrace();
 		}
 		return false;
 	}
 	
-	public boolean updateUserAccount(Account account, User user) {
-		try(Connection conn = ConnectionUtil.getConnection()){
-			switch (account.getType()) {
-				case "checking" : {
-					String sql = "UPDATE users SET checking_account = ? WHERE user_id = ? ;";
-					PreparedStatement statement = conn.prepareStatement(sql);
-					int count = 0;
-					statement.setInt(++count, account.getID());
-					statement.setInt(++count, user.getID());
-					statement.execute();
-					return true;
-				}
-				case "savings" : {
-					String sql = "UPDATE users SET savings_account = ? WHERE user_id = ? ;";
-					PreparedStatement statement = conn.prepareStatement(sql);
-					int count = 0;
-					statement.setInt(++count, account.getID());
-					statement.setInt(++count, user.getID());
-					statement.execute();
-					return true;
-				}
-				case "joint" : {
-					String sql = "UPDATE users SET joint_account = ? WHERE user_id = ? ;";
-					PreparedStatement statement = conn.prepareStatement(sql);
-					int count = 0;
-					statement.setInt(++count, account.getID());
-					statement.setInt(++count, user.getID());
-					statement.execute();
-					return true;
-					}
-				}
-			}
-			catch(SQLException e) {
-				e.printStackTrace();
-			}
-			return false; 
-		}
+	
 }

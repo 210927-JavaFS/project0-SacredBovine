@@ -7,10 +7,13 @@ import com.revature.models.User;
 
 public interface AccountDAO {
 
-	public List<Account> getAll();
-	public Account findByAccountID(int id);
-	public List<Account> findByUser(User user);
-	public boolean updateAccount(Account account);
 	public int addAccount(Account account);
+	public List<Account> getAll();
+	public List<Account> getAllByID(int userAccountsID);
+	public Account GetByID(int id);
+	public boolean updateAccount(Account account);
+	public boolean addUserAccount(User user, Account account);
+	public boolean deleteUserAccount(User user, Account account);
+	
 	
 }

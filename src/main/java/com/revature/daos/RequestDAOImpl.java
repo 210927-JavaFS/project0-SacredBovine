@@ -41,7 +41,7 @@ public class RequestDAOImpl implements RequestDAO{
 		return null;
 	}
 	
-/*	public boolean addRequest(Request request, String message, int userID) { // For use with requests with message 
+/*	public boolean addRequest(Request request, String message, int userID) { // For use with better messaging (expand request type beyond new bank accounts)
 		try(Connection conn = ConnectionUtil.getConnection()){
 			String sql = "INSERT INTO requests (request_type, request_message, user_id) "
 					+ "VALUES (?,?,?);";
@@ -82,10 +82,8 @@ public class RequestDAOImpl implements RequestDAO{
 		try(Connection conn = ConnectionUtil.getConnection()){
 			String sql = "DELETE FROM requests WHERE request_id = ?;";
 			PreparedStatement statement = conn.prepareStatement(sql);
-			int count=0;
-			statement.setInt(++count, request.getRequestID());
-			statement.execute();
-			
+			statement.setInt(1, request.getRequestID());
+			statement.execute();	
 			return true;
 		}
 		catch(SQLException e) {

@@ -4,92 +4,116 @@ import com.revature.Driver;
 import com.revature.daos.AccountDAO;
 import com.revature.daos.AccountDAOImpl;
 import com.revature.models.Account;
+import com.revature.models.User;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AccountService {
-	private static Logger log = LoggerFactory.getLogger(AccountService.class);
 	//MDC.put("AccountService:");
+	private static Logger log = LoggerFactory.getLogger(AccountService.class);
 	private final double newAccountInitialBalance = 0.00;
  	private AccountDAO accountDAO = new AccountDAOImpl();
 
- // AccountHolder and Admin use Methods.
+// AccountHolder and Admin use Methods.
 	public boolean deposit(Account account, double amount){
  		double balance = account.getBalance();
  		if(amount > 0) {
  			balance += amount;
  			account.setBalance(balance);
- 			if(accountDAO.updateAccount(account)) {
- 				return true;
- 			}
+ 			return accountDAO.updateAccount(account);
  		}
  		return false;
  	} 
+	
   	public boolean withdraw(Account account, double amount){
  		double balance = account.getBalance();
  		if(amount > 0) {
  			if (balance-amount > 0) {
  				balance -= amount;
- 		 		account.setBalance(balance);
- 		 		
- 		 		//finalize account transaction in DB
+ 		 		account.setBalance(balance);		 		
  		 		System.out.println(toString(account));
- 		 		if(accountDAO.updateAccount(account)) {
- 	 				return true;
- 		 		}
- 			}
+ 		 		return accountDAO.updateAccount(account);
+ 	 		}
  		}
  		return false;
   	}
- 	public void transfer( ArrayList<Account> accounts, double amount) {
- 		Account source = accounts.get(0);
- 		Account destination = accounts.get(1);
- 		Double initSourceBalance = source.getBalance();
- 		Double initDestinationBalance = destination.getBalance();
- 		Double newSourceBalance = initSourceBalance-amount;
- 		Double newDestinationBalance = initDestinationBalance+amount;
- 		source.setBalance(newSourceBalance);
- 		destination.setBalance(newDestinationBalance);
- 		accounts.set(0, source);
- 		accounts.set(1,  destination);
- 		
- 		// Update DB
+  	
+ 	public boolean transfer(Account source, Account destination, double amount) {
+ 		if(withdraw(source, amount)) {
+ 			if(deposit(destination, amount)) {
+ 				return true;
+ 			}
+ 			deposit(source, amount);
+ 		} 
+ 		return false;
  	}
  	
 // Teller and Admin use methods
-  	public Account createAccount(int type){ // Should create a new Bank account with proper type checking or savings with balance $0.00 and assign to user
+  	public Account createAccount(User user, int type){ // Should create a new Bank account with proper type checking or savings with balance $0.00 and assign to user
   		switch (type) {
  			case 1: {
  				Account account = new Account(newAccountInitialBalance, "checking");
- 				account.setID(accountDAO.addAccount(account));
- 				return account;
+ 				int accountID = accountDAO.addAccount(account);
+ 				if(accountID != 0) {
+ 					account.setID(accountID);
+ 					if(accountDAO.addUserAccount(user, account)) {
+ 						return account;
+ 					} else {
+ 						System.out.println(" ERROR: Account could not be assigned to Users");
+ 					}
+ 				} else {
+ 					System.out.println(" ERROR: System could not create new Account Entry");
+ 				}
+ 				break;
  			}
  			case 2: {
  				Account account = new Account(newAccountInitialBalance, "savings");
- 	  			account.setID(accountDAO.addAccount(account));
- 	  			return account;
+ 				int accountID = accountDAO.addAccount(account);
+ 				if(accountID != 0) {
+ 					account.setID(accountID);
+ 					if(accountDAO.addUserAccount(user, account)) {
+ 						return account;
+ 					} else {
+ 						System.out.println(" ERROR: Account could not be assigned to Users");
+ 					}
+ 				} else {
+ 					System.out.println(" ERROR: System could not create new Account Entry");
+ 				}
+ 				break;
  			}
  			case 3:{
  				Account account = new Account(newAccountInitialBalance, "joint");
- 	  			account.setID(accountDAO.addAccount(account));
- 	  			return account;
+ 				int accountID = accountDAO.addAccount(account);
+ 				if(accountID != 0) {
+ 					account.setID(accountID);
+ 					if(accountDAO.addUserAccount(user, account)) {
+ 						return account;
+ 					} else {
+ 						System.out.println(" ERROR: Account could not be assigned to Users");
+ 					}
+ 				} else {
+ 					System.out.println(" ERROR: System could not create new Account Entry");
+ 				}
+ 				break;
  			}
   		}
- 	  	System.out.println("Account service failed to creat a new account.");
+ 	  	System.out.println("Account service failed to create a new account.");
   		Account account = new Account() ;
- 		return account;
+ 		return null;
  	}
  	
 // Admin only methods
  	
  	public void closeAccount(Account account, Account destination){  // Transfer all funds to destination and close account.
- 		 ArrayList<Account> transfers = new ArrayList<>();
- 		 transfers.add(account);
- 		 transfers.add(destination);
- 		 transfer(transfers,account.getBalance());
+ 		 transfer(account,destination, account.getBalance());
+ 		 if(accountDAO.updateAccount(destination)) {
+ 		 // delete account
  		 // update DB
+ 		 }
  	}
  	
  	public void closeAccount(Account account){  // Withdraw all funds to destination and close account.
@@ -109,11 +133,8 @@ public class AccountService {
  		String display = account.getType() + " account : "+ String.valueOf(account.getID())+": $"+String.valueOf(account.getBalance());
  		return display;
  	}
- 	
- /*	public Account getTestAccount(int accountID, double balance, String type) { // junk for testing
- 		Account account = new Account(balance, type);
- 		account.setID(accountID);
- 		return account;
- 	}*/
- 	
+ 	 
+ 	public List<Account> getUserAccounts(User user) {
+ 		return(accountDAO.getAllByID(user.getID()));
+ 	}
 }

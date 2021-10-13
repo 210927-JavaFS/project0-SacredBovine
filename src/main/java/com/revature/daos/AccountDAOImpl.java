@@ -33,9 +33,7 @@ public class AccountDAOImpl implements AccountDAO {
 			statement.setDouble(++count,  account.getBalance());
 			statement.setString(++count, String.valueOf(account.getType()));
 			ResultSet result = statement.executeQuery();
-			
-			count=0;
-			int accountID = -1;
+			int accountID = 0;
 			if(result.next()) {
 				accountID = result.getInt(1);
 			}
@@ -64,12 +62,12 @@ public class AccountDAOImpl implements AccountDAO {
 			List<Account> accounts = new ArrayList<>();
 			while(result.next()) {
 				Account account = new Account();
+				
 				account.setID(result.getInt("account_id"));
 				account.setType(result.getString("account_type"));
 				account.setBalance(result.getDouble("balance"));
-				accounts.add(account);
+				if(account.getID()>10000000) accounts.add(account);
 			}
-		
 			return accounts;
 		}
 		catch (SQLException e) {
@@ -78,7 +76,36 @@ public class AccountDAOImpl implements AccountDAO {
 		return null;
 	}
 	
-	public Account findByAccountID(int id) {
+	public List<Account> getAllByID(int userAccountsID) {
+		try(Connection conn = ConnectionUtil.getConnection()) { 
+			String sql = "SELECT * FROM user_accounts WHERE user_account_id = ?;";
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setInt(1, userAccountsID);
+			ResultSet result = statement.executeQuery();
+			sql = "SELECT * FROM accounts WHERE account_number = ?;";
+			statement = conn.prepareStatement(sql);
+			int count = 0;
+			while(result.next()) {
+				statement.setInt(++count, result.getInt("account_number"));
+			}
+			result = statement.executeQuery();
+			List<Account> accounts = new ArrayList<>();
+			while(result.next()) {
+				Account account = new Account();
+				account.setID(result.getInt("account_id"));
+				account.setType(result.getString("account_type"));
+				account.setBalance(result.getDouble("balance"));
+				if(account.getID()>10000000) accounts.add(account);
+			}
+			return accounts;
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public Account GetByID(int id) {
 		try(Connection conn = ConnectionUtil.getConnection()){
 			String sql = "SELECT * FROM accounts WHERE account_number = ?;";
 			PreparedStatement statement = conn.prepareStatement(sql);
@@ -100,32 +127,6 @@ public class AccountDAOImpl implements AccountDAO {
 	}
 	
 	@Override
-	public List<Account> findByUser(User user) {
-		/*try(Connection conn = ConnectionUtil.getConnection()){ //try-with-resources 
-			String sql = "SELECT * FROM users WHERE user_id = ?;";
-			PreparedStatement statement = conn.prepareStatement(sql);
-			statement.setString(1, String.valueOf(user.getID()));
-			ResultSet result = statement.executeQuery();
-			
-			//User get Accounts method required
-			
-			List<Account> accounts = new ArrayList<>();
-			while(result.next())
-			{
-				Account account = new Account();
-				account.setID(result.getInt("account_id"));
-				account.setType(result.getString("account_type"));
-				account.setBalance(result.getDouble("balance"));
-				accounts.add(account);
-			}
-			return accounts;
-			}catch (SQLException e) {
-				e.printStackTrace();
-			}*/
-		return null;
-	}
-
-	@Override
 	public boolean updateAccount(Account account) {
 		try(Connection conn = ConnectionUtil.getConnection()){
 			String sql = "UPDATE accounts SET balance = ?, account_type = ? where account_number = ?; ";
@@ -144,4 +145,37 @@ public class AccountDAOImpl implements AccountDAO {
 		return false;
 	}
 
+	public boolean addUserAccount(User user, Account account) {
+		try(Connection conn = ConnectionUtil.getConnection()){
+			String sql = "INSERT INTO user_accounts (user_id, account_number)"
+					+ " VALUES(?,?);";
+			PreparedStatement statement = conn.prepareStatement(sql);
+			int count=0;
+			statement.setInt(++count, user.getID());
+			statement.setInt(++count,account.getID());
+			statement.execute();
+			return true;
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public boolean deleteUserAccount(User user, Account account) {
+		try(Connection conn = ConnectionUtil.getConnection()){
+			String sql = "DELETE FROM user_accounts (user_id = ?, account_number = ?)"
+					+ "VALUES (?,?);";
+			PreparedStatement statement = conn.prepareStatement(sql);
+			int count=0;
+			statement.setInt(++count, user.getID());
+			statement.setInt(++count,account.getID());
+			statement.execute();
+			return true;
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 }

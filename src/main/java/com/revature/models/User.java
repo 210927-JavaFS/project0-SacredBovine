@@ -20,7 +20,7 @@ public class User {
 	private Account checkingAccount;
 	private Account savingsAccount;
 	private Account jointAccount;
-	
+	private List<Account> accounts;
 // Constructors
 	public User() {}
 	public User(String eMailInput, String passInput, Name nameInput, Address addressInput, String phoneInput, // Without an account
@@ -42,6 +42,7 @@ public class User {
 		this.address = addressInput;
 		this.phone = phoneInput;
 		this.type = type;
+		this.accounts = accountsInput;
 	}
 	
 // Getters
@@ -76,10 +77,6 @@ public class User {
 		return jointAccount;
 	}
 	public List<Account> getAccounts(){
-		List<Account> accounts = new ArrayList<>();
-		accounts.add(checkingAccount);
-		accounts.add(savingsAccount);
-		accounts.add(jointAccount);
 		return accounts;
 	}
 
@@ -115,6 +112,9 @@ public class User {
 	}
 	public void setJointAccount(Account jointAccount) {
 		this.jointAccount = jointAccount;
+	}
+	public void setAccounts(List<Account> accountsInput) {
+		this.accounts = accountsInput;
 	}
 
 // Overrides	

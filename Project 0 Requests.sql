@@ -6,3 +6,4 @@ CREATE TABLE requests (
 );
 
 DROP TABLE requests;
+TRUNCATE requests;

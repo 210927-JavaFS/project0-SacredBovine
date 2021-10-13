@@ -20,6 +20,8 @@ import com.revature.daos.RequestDAO;
 import com.revature.daos.RequestDAOImpl;
 import com.revature.daos.UserDAO;
 import com.revature.daos.UserDAOImpl;
+import com.revature.daos.AccountDAO;
+import com.revature.daos.AccountDAOImpl;
 import com.revature.daos.AddressDAO;
 import com.revature.daos.AddressDAOImpl;
 
@@ -31,16 +33,16 @@ public class UserService {
 	private AddressDAO addressDAO  = new AddressDAOImpl();
 	private UserDAO userDAO = new UserDAOImpl();
 	private RequestDAO requestDAO = new RequestDAOImpl();
+	private AccountDAO accountDAO = new AccountDAOImpl();
 	
-	public User createNewUser(String eMail, String pass, String firstName, String lastName, String streetNumber, String streetName, 
+	public boolean createNewUser(String eMail, String pass, String firstName, String lastName, String streetNumber, String streetName, 
 			String city, String region, String zipcode, String country, String phone) { 
 		Name name = new Name(firstName, lastName);
 		name.setId(nameDAO.addName(name));
 		Address address = new Address(streetNumber, streetName, city, region, zipcode, country);
 		address.setAddressID(addressDAO.addAddress(address));
 		User user = new User(eMail, pass, name, address, phone, defaultUserType);
-		user.setUserID(userDAO.addUser(user));
-		return user;
+		return userDAO.addUser(user);
 	}
 	
 	public User getByID(int userID) {
@@ -51,63 +53,29 @@ public class UserService {
 		user.toString();
 	}
 	
-	public User getUser(int userID) {
-		return userDAO.getByID(userID);
-	}
 	public int getType(User user) {
 		return user.getType();
 	}
+	
+	// change name
+	// change address
+	// change phone number
+	
+	
 	
 	void SetType(User user, int type){ 
 		user.setType(type);
 		userDAO.updateUser(user);
 	}
 	
-	public boolean assignAccount(User user, Account account) { //This will be used by all employees to open approved accounts, account service exists in skeleton form
-		
-		try(Connection conn = ConnectionUtil.getConnection()){
-			switch (account.getType()) {
-				case "checking" :
-					if (user.getCheckingAccount().getID() > 10000000) {
-						System.out.println("Customer already has a checking account. \n No new account will be opened.");
-					}
-					else {
-						user.setCheckingAccount(account);
-						System.out.println(" In userService assign checking account and account info is \n" + account.toString()  + " \n To User : " + String.valueOf(user.getID()));
-						return userDAO.updateUserAccount(account, user);
-					}
-					break;
-				case "savings" :
-					if (user.getSavingsAccount().getID() > 10000000) {
-						System.out.println("Customer already has a savings account. \n No new account will be opened.");
-					}
-					else {
-						user.setSavingsAccount(account);
-						System.out.println(" In userService assign savings account and account info is \n" + account.toString() + " \n To User : " + String.valueOf(user.getID()));
-						return userDAO.updateUserAccount(account, user);
-					}
-					break;
-				case "joint" :
-					if (user.getJointAccount().getID() > 10000000) {
-						System.out.println("Customer already has a Joint account. \n No new account will be opened.");
-					}
-					else {
-						user.setJointAccount(account);
-						System.out.println(" In userService assign joint account and account \n " + account.toString() + " \n To User : " + String.valueOf(user.getID()));
-						return userDAO.updateUserAccount(account, user);
-					}
-					break;
-			}
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		return false;
+	public boolean assignAccount(User user, Account account) { //This will be used by all employees to open approved accounts, account service exists in skeleton for
+			return accountDAO.addUserAccount(user,account);
 	}
 	
 	public String getName(User user) {
 		return user.getName().toString();
 	}
-	public User shutDownObject() {
+	public User shutDownObject() { // takes input of "shutdown" at login menu and returns a user object that escapes application from login loop
 		User user = new User();
 		user.setType(4);
 		return user;

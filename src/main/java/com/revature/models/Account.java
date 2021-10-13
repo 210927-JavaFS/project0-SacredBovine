@@ -61,7 +61,7 @@ public class Account {
 				&& Objects.equals(type, other.type);
 	}
 	public String toString() {
-		return "Account #: " + String.valueOf(accountID) + " Type : " + type + " Balance : $" + String.valueOf(balance) +" \n";
+		return type + " account : "+ String.valueOf(accountID)+": $"+String.valueOf(balance);
 	}
 	
 }
