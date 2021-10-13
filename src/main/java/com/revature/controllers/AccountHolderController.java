@@ -63,7 +63,7 @@ public class AccountHolderController {
 	}
 
 	void displayAccounts(User user) {
-		List<Account> accounts = user.getAccounts();
+		List<Account> accounts = accountService.getUserAccounts(user);
 		for(int i = 0; i < accounts.size(); i++) {
 			if(accounts != null) System.out.println("   "+String.valueOf(i+1)+": " + accounts.get(i).toString());
 		}

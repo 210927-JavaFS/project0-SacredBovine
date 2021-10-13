@@ -63,9 +63,10 @@ public class AccountDAOImpl implements AccountDAO {
 			while(result.next()) {
 				Account account = new Account();
 				
-				account.setID(result.getInt("account_id"));
+				account.setID(result.getInt("account_number"));
 				account.setType(result.getString("account_type"));
 				account.setBalance(result.getDouble("balance"));
+				result.getBoolean("new_account_flag");
 				if(account.getID()>10000000) accounts.add(account);
 			}
 			return accounts;
@@ -76,26 +77,30 @@ public class AccountDAOImpl implements AccountDAO {
 		return null;
 	}
 	
-	public List<Account> getAllByID(int userAccountsID) {
+	public List<Account> getAllByID(int userID) {
 		try(Connection conn = ConnectionUtil.getConnection()) { 
-			String sql = "SELECT * FROM user_accounts WHERE user_account_id = ?;";
+			String sql = "SELECT account_number FROM user_accounts WHERE user_id = ?;";
 			PreparedStatement statement = conn.prepareStatement(sql);
-			statement.setInt(1, userAccountsID);
+			statement.setInt(1, userID);
 			ResultSet result = statement.executeQuery();
-			sql = "SELECT * FROM accounts WHERE account_number = ?;";
-			statement = conn.prepareStatement(sql);
-			int count = 0;
+			List<Integer> accountNumbers = new ArrayList<>();
 			while(result.next()) {
-				statement.setInt(++count, result.getInt("account_number"));
+				accountNumbers.add(result.getInt("account_number"));
 			}
-			result = statement.executeQuery();
 			List<Account> accounts = new ArrayList<>();
-			while(result.next()) {
-				Account account = new Account();
-				account.setID(result.getInt("account_id"));
-				account.setType(result.getString("account_type"));
-				account.setBalance(result.getDouble("balance"));
-				if(account.getID()>10000000) accounts.add(account);
+			for (int i = 0; i< accountNumbers.size(); i++) {
+				sql = "SELECT * FROM accounts WHERE account_number = ?;";
+				statement = conn.prepareStatement(sql);
+				statement.setInt(i+1, accountNumbers.get(i));
+				result = statement.executeQuery();
+				while(result.next()) {
+					Account account = new Account();
+					account.setID(result.getInt("account_id"));
+					account.setType(result.getString("account_type"));
+					account.setBalance(result.getDouble("balance"));
+					result.getBoolean("new_account_flag");
+					if(account.getID()>10000000) accounts.add(account);
+				}
 			}
 			return accounts;
 		}
