@@ -28,6 +28,7 @@ public class AccountHolderController {
 	public void accountHolderMenu(User user) {
 		int input;
 		do {
+			//while (scan.hasNext()) {scan.nextLine();}
 			System.out.println(" Please choose from the following options. \n\n "
 					+ "   1: Check account balances \n "
 					+ "   2: Make a withdrawl \n "
@@ -70,7 +71,7 @@ public class AccountHolderController {
 	}
 	
 	boolean withdrawFunds(User user) {
-		List<Account> accounts = user.getAccounts();
+		List<Account> accounts = accountService.getUserAccounts(user);
 		System.out.println(" Which account would you like to withdraw from? \n");
 		for(int i = 0; i < accounts.size(); i++) {
 			if(accounts.get(i).getID() > 0 && accounts.get(i).getID() != 0) {
@@ -79,13 +80,13 @@ public class AccountHolderController {
 		}					
 		int index = scan.nextInt()-1;
 		System.out.println(" How much would you like to withdraw? \n");
-		double amount = Double.valueOf(scan.nextLine());
+		double amount = scan.nextDouble();
 	
 		return accountService.withdraw(accounts.get(index),amount);
 	}
 	
 	boolean depositFunds(User user) {
-		List<Account> accounts = user.getAccounts();
+		List<Account> accounts = accountService.getUserAccounts(user);
 		System.out.println(" Which account would you like to deposit to? \n");
 		for(int i = 0; i < accounts.size(); i++) {
 			System.out.println("   " + String.valueOf(i+1) +": " + accountService.toString(accounts.get(i)));
@@ -99,7 +100,7 @@ public class AccountHolderController {
 	}
 		
 	boolean transferFunds(User user) {
-		List<Account> accounts = user.getAccounts();
+		List<Account> accounts = accountService.getUserAccounts(user);
 		if(accounts.size()<2) {
 			System.out.println(" Can only transfer between your own account at this time and requires at least 2. \n Please open another account. \n ");
 			return false;
@@ -120,7 +121,7 @@ public class AccountHolderController {
 			System.out.println("   " + String.valueOf(i+1) + ": " + accountService.toString(accounts.get(i)));
 		}			
 //verify int input	
-		input = scan.nextInt();	
+		input = scan.nextInt()-1;	
 		Account destination = accounts.get(input);
 		return accountService.transfer(source, destination, amount);
 	}

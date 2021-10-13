@@ -91,11 +91,11 @@ public class AccountDAOImpl implements AccountDAO {
 			for (int i = 0; i< accountNumbers.size(); i++) {
 				sql = "SELECT * FROM accounts WHERE account_number = ?;";
 				statement = conn.prepareStatement(sql);
-				statement.setInt(i+1, accountNumbers.get(i));
+				statement.setInt(1, accountNumbers.get(i));
 				result = statement.executeQuery();
 				while(result.next()) {
 					Account account = new Account();
-					account.setID(result.getInt("account_id"));
+					account.setID(result.getInt("account_number"));
 					account.setType(result.getString("account_type"));
 					account.setBalance(result.getDouble("balance"));
 					result.getBoolean("new_account_flag");

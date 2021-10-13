@@ -53,7 +53,7 @@ public class AccountService {
  	}
  	
 // Teller and Admin use methods
-  	public Account createAccount(User user, int type){ // Should create a new Bank account with proper type checking or savings with balance $0.00 and assign to user
+  	public boolean createAccount(User user, int type){ // Should create a new Bank account with proper type checking or savings with balance $0.00 and assign to user
   		switch (type) {
  			case 1: {
  				Account account = new Account(newAccountInitialBalance, "checking");
@@ -61,7 +61,7 @@ public class AccountService {
  				if(accountID != 0) {
  					account.setID(accountID);
  					if(accountDAO.addUserAccount(user, account)) {
- 						return account;
+ 						return true;
  					} else {
  						System.out.println(" ERROR: Account could not be assigned to Users");
  					}
@@ -76,7 +76,7 @@ public class AccountService {
  				if(accountID != 0) {
  					account.setID(accountID);
  					if(accountDAO.addUserAccount(user, account)) {
- 						return account;
+ 						return true;
  					} else {
  						System.out.println(" ERROR: Account could not be assigned to Users");
  					}
@@ -91,7 +91,7 @@ public class AccountService {
  				if(accountID != 0) {
  					account.setID(accountID);
  					if(accountDAO.addUserAccount(user, account)) {
- 						return account;
+ 						return true;
  					} else {
  						System.out.println(" ERROR: Account could not be assigned to Users");
  					}
@@ -102,8 +102,8 @@ public class AccountService {
  			}
   		}
  	  	System.out.println("Account service failed to create a new account.");
-  		Account account = new Account() ;
- 		return null;
+ 
+ 		return false;
  	}
  	
 // Admin only methods

@@ -36,6 +36,7 @@ public class TellerController extends AccountHolderController{
 	public void TellerControllerMenu(User user) {
 		int input = -1;
 		do {
+			
 			System.out.println("Hello "+user.getName()+"\n Would you like to review current account requests? y/n");
 				switch(String.valueOf(scan.nextLine()).toLowerCase().trim()) {
 					case "y" :
@@ -52,20 +53,19 @@ public class TellerController extends AccountHolderController{
 							User requestUser = userService.getByID(request.getRequestUserID());
 							switch (request.getMessage()) {
 								case "1" : { // create checking account and assign to user
-									Account account = accountService.createAccount(requestUser, 1);
+									if(accountService.createAccount(requestUser, 1)) {
 										requestService.closeRequest(request);
+									}
 									break;
 								}
 								case "2": { // create savings account and assign to user
-									Account account = accountService.createAccount(requestUser, 2);
-									if(userService.assignAccount(requestUser, account)) {
+									if(accountService.createAccount(requestUser, 2)) {
 										requestService.closeRequest(request);
 									}
 									break;
 								}
 								case "3": { // create joint account and assign to user
-									Account account = accountService.createAccount(requestUser, 3);
-									if(userService.assignAccount(requestUser, account)) {
+									if(accountService.createAccount(requestUser, 3)) {
 										requestService.closeRequest(request);
 									}
 									break;
@@ -79,6 +79,7 @@ public class TellerController extends AccountHolderController{
 						input = -1;
 						break;
 				}
+			scan.nextLine(); //I DON'T KNOW WHY THIS NEEDS TO BE HERE!
 		} while (input >= 0);
 		
 	}
