@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AccountService {
-	//MDC.put("AccountService:");
+
 	private static Logger log = LoggerFactory.getLogger(AccountService.class);
 	private final double newAccountInitialBalance = 0.00;
  	private AccountDAO accountDAO = new AccountDAOImpl();
@@ -28,11 +28,10 @@ public class AccountService {
  		}
  		return false;
  	} 
-	
-  	public boolean withdraw(Account account, double amount){
+	public boolean withdraw(Account account, double amount){
  		double balance = account.getBalance();
  		if(amount > 0) {
- 			if (balance-amount > 0) {
+ 			if (balance-amount >= 0) {
  				balance -= amount;
  		 		account.setBalance(balance);		 		
  		 		System.out.println(toString(account));
@@ -41,8 +40,7 @@ public class AccountService {
  		}
  		return false;
   	}
-  	
- 	public boolean transfer(Account source, Account destination, double amount) {
+  	public boolean transfer(Account source, Account destination, double amount) {
  		if(withdraw(source, amount)) {
  			if(deposit(destination, amount)) {
  				return true;
@@ -53,7 +51,7 @@ public class AccountService {
  	}
  	
 // Teller and Admin use methods
-  	public boolean createAccount(User user, int type){ // Should create a new Bank account with proper type checking or savings with balance $0.00 and assign to user
+  	public boolean createAccount(User user, int type){ 
   		switch (type) {
  			case 1: {
  				Account account = new Account(newAccountInitialBalance, "checking");
@@ -105,35 +103,23 @@ public class AccountService {
  
  		return false;
  	}
- 	
-// Admin only methods
- 	
- 	public void closeAccount(Account account, Account destination){  // Transfer all funds to destination and close account.
- 		 transfer(account,destination, account.getBalance());
- 		 if(accountDAO.updateAccount(destination)) {
- 		 // delete account
- 		 // update DB
- 		 }
+ 	public Account getByID(int ID) {
+ 		return accountDAO.GetByID(ID);
  	}
- 	
- 	public void closeAccount(Account account){  // Withdraw all funds to destination and close account.
-		 
- 		withdraw(account, account.getBalance());
-		 
-		 // update DB
+  	List<Account> getAllByID(int userID){
+  		return accountDAO.getAllByID(userID);
+  	}
+
+// Admin only methods
+ 	public boolean closeAccount(Account account){  
+		 return accountDAO.deleteAccount(account);
 	 }
- 	
- 	// Stretch goal methods
- 	
- 	// public void setPrimaryAccountHolder(Account account, User user){} Should set primary account holder (change of hands or joint account implementation) maybe employee 
- 	// public void setSecondaryAccountHolder(Account account, User user){} "  "
  	
   // Controller Use Methods
  	public String toString(Account account) {
  		String display = account.getType() + " account : "+ String.valueOf(account.getID())+": $"+String.valueOf(account.getBalance());
  		return display;
  	}
- 	 
  	public List<Account> getUserAccounts(User user) {
  		return(accountDAO.getAllByID(user.getID()));
  	}

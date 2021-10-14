@@ -52,8 +52,7 @@ public class Request {
 	}
 	
 	public String toString() {
-		return " User : " + String.valueOf(this.requestUserID) + " \n Request ID : " 
-				+ String.valueOf(this.requestID) + " \n Request type : " 
+		return " User : " + String.valueOf(this.requestUserID) +" \n Request type: "
 				+ this.requestMessage +" \n";
 	}
 }

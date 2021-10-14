@@ -16,20 +16,6 @@ public class LoginService {
 	UserService userservice = new UserService();
 	UserDAO userDAO = new UserDAOImpl();
 	
-/*	public int login(String eMail, String password) {
-		List<User> users = userDAO.getAll();
-		for (int i = 0; i < users.size();i++) {
-			if (users.get(i).getEMail().equals(eMail)) {
-				if( users.get(i).getPass().equals(password)) {
-					return users.get(i).getID();
-				} 
-			} 
-			
-		}
-		System.out.println("Email or Password were incorrect. \n Please try again.");
-		return 0;
-	}*/
-	
 	public User login(String eMail, String password) {
 		List<User> users = userDAO.getAll();
 		for (int i = 0; i < users.size();i++) {

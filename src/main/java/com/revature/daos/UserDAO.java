@@ -12,4 +12,5 @@ public interface UserDAO {
 	//public boolean deleteUser(User user); //must close and delete any Accounts for referential integrity
 	public boolean updateUser(User user);  
 	public User getByID(int userID); 
+	public User getByEMail(String eMail); 
 }

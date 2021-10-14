@@ -152,7 +152,7 @@ public class User {
 				output+="Bank Administrator\n";
 				break;
 		}
-		output += " User Name: " + this.getName() + "\n User Email Address: " + this.getEMail() +" \n User Password: " + this.getPass()+ "\n User Phone Number: "+this.getPhone() 
+		output += " User Name: " + this.getName() + "\n User Email Address: " + this.getEMail() + "\n User Phone Number: "+this.getPhone() 
 			+ "\n User Address: \n" + this.getAddress().toString() + "\n";
 		return output;
 	}

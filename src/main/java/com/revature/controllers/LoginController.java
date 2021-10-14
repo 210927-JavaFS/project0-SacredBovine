@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 import java.security.NoSuchAlgorithmException;  
 import java.security.MessageDigest;  
-  
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +12,7 @@ import org.slf4j.MDC;
 import com.revature.models.User;
 
 import com.revature.services.LoginService;
+import com.revature.services.PasswordService;
 import com.revature.services.UserService;
 
 /*Takes user login info, checks account type, and launches appropriate user controller
@@ -24,6 +24,7 @@ public class LoginController {
 	private LoginService loginService = new LoginService();
 	private UserService userService = new UserService();
 	private UserCreationController  userCreationController = new UserCreationController();
+	private PasswordService passwordService = new PasswordService();
 	
 	public void loginMenu() {
 		boolean shutdown = false;
@@ -59,33 +60,43 @@ public class LoginController {
 	}
 	
 	public User login() {
-		System.out.println(" Do you have an existing account y/n? \n");
-		String input = scan.nextLine().toLowerCase().trim();
-		switch (input) {
-			case "y" :
-				System.out.println(" What is your e-mail address?");
-				input = scan.nextLine().toLowerCase().trim();
-				System.out.println(" What is your password?");
-				User user = loginService.login(input, scan.nextLine().trim());
-				if (user != null) return user;
-				else {
-					System.out.println(" Incorrect eMail or password. \n Please try again. \n ");
+		try
+		{
+			System.out.println(" Do you have an existing account y/n? \n");
+			String input = scan.nextLine().toLowerCase().trim();
+			switch (input) {
+				case "y" :
+					System.out.println(" What is your e-mail address?");
+					input = scan.nextLine().toLowerCase().trim();
+					System.out.println(" What is your password?");
+					String pass = passwordService.toHexString(passwordService.getSHA(scan.nextLine().trim()));
+					User user = loginService.login(input, pass);
+					if (user != null) return user;
+					else {
+						System.out.println(" Incorrect eMail or password. \n Please try again. \n ");
+						return login();
+					}
+				case "n" :
+					System.out.println(" Let's create you a new account.");
+					if(userCreationController.createNewUser()) {
+						System.out.println(" Please login to your new account. \n");
+					} else {
+						System.out.println(" Account creation failed. Please try again. \n");
+					}
+					return login();
+				case "shutdown" :
+					user = userService.shutDownObject();
+					return user;		
+				default :
+					System.out.println(" Incorrect eMail or password. \n Please try again. \n");
 					return login();
 				}
-			case "n" :
-				System.out.println(" Let's create you a new account.");
-				if(userCreationController.createNewUser()) {
-					System.out.println(" Please login to your new account. \n");
-				} else {
-					System.out.println(" Account creation failed. Please try again. \n");
-				}
-				return login();
-			case "shutdown" :
-				user = userService.shutDownObject();
-				return user;		
-			default :
-				System.out.println(" Incorrect eMail or password. \n Please try again. \n");
-				return login();
-			}
+		}
+		catch ( NoSuchAlgorithmException e)
+		{
+			System.out.println("Could not hash pass.");
+			log.error(" Could not Hash password. "+e.getStackTrace().toString());
+		}
+		return userService.getDummy();
 	}
 }

@@ -100,13 +100,41 @@ public class UserDAOImpl implements UserDAO {
 		return null;
 	}
 	
+	public User getByEMail(String eMail) {
+		try(Connection conn = ConnectionUtil.getConnection()){ //try-with-resources 
+			NameDAO nameDAO = new NameDAOImpl();
+			AddressDAO addressDAO = new AddressDAOImpl();
+			AccountDAO accountDAO = new AccountDAOImpl();
+			String sql = "SELECT * FROM users WHERE email_address = ?;";
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, eMail);
+			ResultSet result = statement.executeQuery();
+			
+			User user = new User();
+			while(result.next())
+			{
+				user.setUserID(result.getInt("user_id"));
+				user.setName(nameDAO.findById(result.getInt("name_id")));
+				user.setPass(result.getString("password_key"));
+				user.setEMail(result.getString("email_address"));
+				user.setAddress(addressDAO.findByID(result.getInt("address_id")));
+				user.setPhone(result.getString("phone_number"));
+				user.setType(result.getInt("user_type"));
+			}
+			return user;
+		}catch (SQLException e) {
+				e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public boolean updateUser(User user) {
 		try(Connection conn = ConnectionUtil.getConnection()){
 			NameDAO nameDAO = new NameDAOImpl();
 			AddressDAO addressDAO = new AddressDAOImpl();
 			
 			// Update users table
-			String sql = "UPDATE users SET password_key = ?, email_address = ?, where user_id = ? ;";
+			String sql = "UPDATE users SET password_key = ?, email_address = ?, WHERE user_id = ? ;";
 			PreparedStatement statement = conn.prepareStatement(sql);
 			
 			int count = 0;

@@ -72,7 +72,7 @@ public class AccountHolderController {
 	
 	boolean withdrawFunds(User user) {
 		List<Account> accounts = accountService.getUserAccounts(user);
-		System.out.println(" Which account would you like to withdraw from? \n");
+		System.out.println(" Which account would you like to withdraw from? \n\n");
 		for(int i = 0; i < accounts.size(); i++) {
 			if(accounts.get(i).getID() > 0 && accounts.get(i).getID() != 0) {
 				System.out.println("   " + String.valueOf(i+1) + ": " + accountService.toString(accounts.get(i)));
@@ -87,7 +87,7 @@ public class AccountHolderController {
 	
 	boolean depositFunds(User user) {
 		List<Account> accounts = accountService.getUserAccounts(user);
-		System.out.println(" Which account would you like to deposit to? \n");
+		System.out.println(" Which account would you like to deposit to? \n\n");
 		for(int i = 0; i < accounts.size(); i++) {
 			System.out.println("   " + String.valueOf(i+1) +": " + accountService.toString(accounts.get(i)));
 		}
@@ -102,7 +102,7 @@ public class AccountHolderController {
 	boolean transferFunds(User user) {
 		List<Account> accounts = accountService.getUserAccounts(user);
 		if(accounts.size()<2) {
-			System.out.println(" Can only transfer between your own account at this time and requires at least 2. \n Please open another account. \n ");
+			System.out.println(" Can only transfer between your own account at this time and requires at least 2. \n Please open another account. \n");
 			return false;
 		}
 		System.out.println(" Which account would you like to transfer the funds from? \n");
@@ -113,7 +113,7 @@ public class AccountHolderController {
 		int input = scan.nextInt()-1;
 		Account source = accounts.get(input);
 		accounts.remove(input);
-		System.out.println(" How much would you like to transfer?");
+		System.out.println(" How much would you like to transfer?\n");
 //verify double input
 		double amount = scan.nextDouble();					
 		System.out.println(" Which account would you like to transfer the funds to? \n");
@@ -128,7 +128,9 @@ public class AccountHolderController {
 
 // it is possible to make junk accounts due to request approval logic. make sure they only enter 1 or 2
 	boolean requestAccount(User user) {
-		System.out.println(" What type of account would you like to request? \n   1: checking \n   2: savings \n "); // 3: joint (available soon) \n ");
+		System.out.println(" What type of account would you like to request? \n\n"
+				+ "   1: checking \n"
+				+ "   2: savings \n "); // 3: joint (available soon) \n ");
 		int foo = scan.nextInt();
 		String message = String.valueOf(foo);
 		if( foo == 1 || foo == 2) {	

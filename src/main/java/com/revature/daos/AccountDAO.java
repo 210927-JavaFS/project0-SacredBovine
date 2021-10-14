@@ -9,11 +9,12 @@ public interface AccountDAO {
 
 	public int addAccount(Account account);
 	public List<Account> getAll();
-	public List<Account> getAllByID(int userAccountsID);
+	public List<Account> getAllByID(int userID);
 	public Account GetByID(int id);
 	public boolean updateAccount(Account account);
 	public boolean addUserAccount(User user, Account account);
 	public boolean deleteUserAccount(User user, Account account);
-	
+	public boolean deleteUserAccount(Account account);
+	public boolean deleteAccount(Account account);
 	
 }

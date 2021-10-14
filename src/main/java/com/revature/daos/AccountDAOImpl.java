@@ -134,7 +134,7 @@ public class AccountDAOImpl implements AccountDAO {
 	@Override
 	public boolean updateAccount(Account account) {
 		try(Connection conn = ConnectionUtil.getConnection()){
-			String sql = "UPDATE accounts SET balance = ?, account_type = ? where account_number = ?; ";
+			String sql = "UPDATE accounts SET balance = ?, account_type = ? WHERE account_number = ?; ";
 			PreparedStatement statement = conn.prepareStatement(sql);
 			int count = 0;
 			statement.setDouble(++count, account.getBalance());
@@ -180,6 +180,36 @@ public class AccountDAOImpl implements AccountDAO {
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public boolean deleteUserAccount(Account account) {
+		try(Connection conn = ConnectionUtil.getConnection()){
+			String sql = "DELETE FROM user_accounts Where account_number = ?;";
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setInt(1,account.getID());
+			statement.execute();
+			return true;
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public boolean deleteAccount(Account account) {
+		if(deleteUserAccount(account)) {
+			try(Connection conn = ConnectionUtil.getConnection()){
+				String sql = "DELETE FROM accounts Where account_number = ?;";
+				PreparedStatement statement = conn.prepareStatement(sql);
+				statement.setInt(1,account.getID());
+				statement.execute();
+				return true;
+			}
+			catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return false;
 	}

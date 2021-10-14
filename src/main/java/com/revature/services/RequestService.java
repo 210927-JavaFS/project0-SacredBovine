@@ -17,26 +17,12 @@ public class RequestService {
 	public List<Request> getRequests() {
 		return requestDAO.getAllRequests();
 	}
-	
 	public boolean createRequest(int type, String message, User user) {
 		Request request = new Request(type, message, user.getID());
 		return requestDAO.addRequest(request);
 	}
-	
 	public boolean closeRequest(Request request) {
 		return requestDAO.closeRequest(request);
 	}
-	
-/*	public boolean exists(int ID) {
-		List<Request> requests = getRequests();
-		for ( int i = 0; i < requests.size(), i++)
-		{
-			
-		}
-	}
-/*	public boolean createAccountRequest(int type, String message User user) {
-		Request request = new Request(type, user.getID());
-		return requestDAO.addRequest(request, userID);
-	}*/
 }
 
