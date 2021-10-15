@@ -15,7 +15,9 @@ import com.revature.models.Address;
 import com.revature.utils.ConnectionUtil;
 
 public class AddressDAOImpl implements AddressDAO{
-
+	
+	private static Logger log = LoggerFactory.getLogger(AddressDAOImpl.class);
+	
 	@Override
 	public List<Address> getAll() {
 		try(Connection conn = ConnectionUtil.getConnection()){ //try-with-resources 
@@ -38,23 +40,13 @@ public class AddressDAOImpl implements AddressDAO{
 			return addresses;
 		}
 		catch (SQLException e) {
-			e.printStackTrace();
+			log.error(e.getStackTrace().toString());
 		}
 		return null;
 	}
-	
 	@Override
 	public Address findByID(int id) {
 		try(Connection conn = ConnectionUtil.getConnection()){  
-			
-			/*String sql = "SELECT * FROM names WHERE name_id = ?;";
-			PreparedStatement statement = conn.prepareStatement(sql);
-			statement.setInt(1,id);
-			ResultSet result = statement.executeQuery();*/
-			
-			
-			
-			
 			String sql = "SELECT * FROM addresses WHERE address_id = ?;";
 			PreparedStatement statement = conn.prepareStatement(sql);
 			statement.setInt(1, id);
@@ -70,28 +62,25 @@ public class AddressDAOImpl implements AddressDAO{
 				address.setCountry(result.getString("country"));
 			}
 			return address;
-			//System.out.println("find address by ID : "+ String.valueOf(id) +" : "+ address.toString());
 		}
 		catch (SQLException e) {
-			e.printStackTrace();
+			log.error(e.getStackTrace().toString());
 		}
 		Address address = new Address();
 		return address;
 	}
 
 	@Override
-	public boolean updateAddress(Address address) {
+	public boolean updateAddress(Address address) { 
 		try(Connection conn = ConnectionUtil.getConnection()){
-			//NameDAO nameDAO = new NameDAOImpl();
-			AddressDAO addressDAO = new AddressDAOImpl();
-			//			
+			AddressDAO addressDAO = new AddressDAOImpl();			
 			Address current = addressDAO.findByID(address.getAddressID());
 			if (current == address) {
 				return true ;
 			}
 			else if(current.getAddressID() == address.getAddressID())
 			{
-				
+				// never implemented
 			}
 			else { 
 				// Update address table
@@ -111,11 +100,10 @@ public class AddressDAOImpl implements AddressDAO{
 			}
 		}
 			catch(SQLException e) {
-			e.printStackTrace();
+				log.error(e.getStackTrace().toString());
 		}
 		return false;
 	}
-
 	@Override
 	public int addAddress(Address address) {
 		try(Connection conn = ConnectionUtil.getConnection()){
@@ -161,7 +149,7 @@ public class AddressDAOImpl implements AddressDAO{
 			return addressID;
 		}
 		catch(SQLException e) {
-			e.printStackTrace();
+			log.error(e.getStackTrace().toString());
 		}
 		return 0;
 	}

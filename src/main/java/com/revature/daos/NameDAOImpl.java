@@ -17,6 +17,8 @@ import com.revature.utils.ConnectionUtil;
 
 public class NameDAOImpl implements NameDAO{
 
+	private static Logger log = LoggerFactory.getLogger(NameDAOImpl.class);
+	
 	@Override
 	public List<Name> getAll() {
 		try(Connection conn = ConnectionUtil.getConnection()){ 
@@ -36,11 +38,10 @@ public class NameDAOImpl implements NameDAO{
 			return names;
 		}
 		catch (SQLException e) {
-			e.printStackTrace();
+			log.error(e.getStackTrace().toString());
 		}
 		return null;
 	}
-
 	@Override
 	public Name findById(int id) {
 		try(Connection conn = ConnectionUtil.getConnection())
@@ -60,11 +61,31 @@ public class NameDAOImpl implements NameDAO{
 			
 		}
 		catch (SQLException e) {
-			e.printStackTrace();
+			log.error(e.getStackTrace().toString());
 		}
 		return null;
 	}
 
+	public boolean updateName(Name name) {
+		try(Connection conn = ConnectionUtil.getConnection()){
+			String sql = "UPDATE names SET first_name = ?, last_name = ? where name_id = ?; "
+			+ "VALUES (?,?,?);";
+			PreparedStatement statement = conn.prepareStatement(sql);
+			
+			int count = 0;
+			statement.setString(++count, name.getFirstName());
+			statement.setString(++count, name.getLastName());
+			statement.setString(++count, String.valueOf(name.getID()));
+			statement.execute();
+			
+			return true;
+		}
+		catch(SQLException e) 
+		{
+			log.error(e.getStackTrace().toString());
+		}
+		return false;
+	}
 	@Override
 	public int addName(Name name) {
 		try(Connection conn = ConnectionUtil.getConnection()){
@@ -92,7 +113,6 @@ public class NameDAOImpl implements NameDAO{
 			if (nameID >= 0) {
 				sql = "UPDATE names SET new_name_flag = FALSE WHERE name_id = ?;";
 				statement = conn.prepareStatement(sql);
-				//statement.setString(1, String.valueOf(nameID));
 				statement.setInt(1, nameID);
 				statement.execute();
 			} else System.out.println("Name id < 0");
@@ -100,29 +120,9 @@ public class NameDAOImpl implements NameDAO{
 			return nameID;
 		}
 		catch(SQLException e) {
-			e.printStackTrace();
+			log.error(e.getStackTrace().toString());
 		}
 		return 0;
 	}	
 	
-	public boolean updateName(Name name) {
-		try(Connection conn = ConnectionUtil.getConnection()){
-			String sql = "UPDATE names SET first_name = ?, last_name = ? where name_id = ?; "
-			+ "VALUES (?,?,?);";
-			PreparedStatement statement = conn.prepareStatement(sql);
-			
-			int count = 0;
-			statement.setString(++count, name.getFirstName());
-			statement.setString(++count, name.getLastName());
-			statement.setString(++count, String.valueOf(name.getID()));
-			statement.execute();
-			
-			return true;
-		}
-		catch(SQLException e) 
-		{
-			e.printStackTrace();
-		}
-		return false;
-	}
 }

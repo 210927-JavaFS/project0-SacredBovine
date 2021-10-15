@@ -1,5 +1,9 @@
 package com.revature.controllers;
-
+import java.math.BigDecimal;
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Positive;
 import com.revature.models.User;
 
 import java.util.ArrayList;
@@ -80,6 +84,9 @@ public class AccountHolderController {
 		}					
 		int index = scan.nextInt()-1;
 		System.out.println(" How much would you like to withdraw? \n");
+		
+		@Positive(message = "Input a positive Value")
+		@Digits(fraction = 2, integer = 10, message = "Input a valid amount")
 		double amount = scan.nextDouble();
 	
 		return accountService.withdraw(accounts.get(index),amount);
@@ -94,6 +101,8 @@ public class AccountHolderController {
 		int index = scan.nextInt()-1;
 		
 		System.out.println(" How much would you like to deposit? \n");
+		@Positive(message = "Input a positive Value")
+		@Digits(fraction = 2, integer = 10, message = "Input a valid amount")
 		double amount = scan.nextDouble();
 	
 		return accountService.deposit(accounts.get(index),amount);	
@@ -109,18 +118,19 @@ public class AccountHolderController {
 		for(int i = 0; i < accounts.size(); i++) {
 			System.out.println("   " + String.valueOf(i+1) + ": " + accountService.toString(accounts.get(i)));
 		}
-//verify int input	
 		int input = scan.nextInt()-1;
 		Account source = accounts.get(input);
 		accounts.remove(input);
 		System.out.println(" How much would you like to transfer?\n");
-//verify double input
+
+		@Positive(message = "Input a positive Value")
+		@Digits(fraction = 2, integer = 10, message = "Input a valid amount")
 		double amount = scan.nextDouble();					
 		System.out.println(" Which account would you like to transfer the funds to? \n");
 		for(int i = 0; i < accounts.size(); i++) {
 			System.out.println("   " + String.valueOf(i+1) + ": " + accountService.toString(accounts.get(i)));
 		}			
-//verify int input	
+	
 		input = scan.nextInt()-1;	
 		Account destination = accounts.get(input);
 		return accountService.transfer(source, destination, amount);
@@ -130,7 +140,7 @@ public class AccountHolderController {
 	boolean requestAccount(User user) {
 		System.out.println(" What type of account would you like to request? \n\n"
 				+ "   1: checking \n"
-				+ "   2: savings \n "); // 3: joint (available soon) \n ");
+				+ "   2: savings \n");
 		int foo = scan.nextInt();
 		String message = String.valueOf(foo);
 		if( foo == 1 || foo == 2) {	

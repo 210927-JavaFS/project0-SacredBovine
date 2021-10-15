@@ -31,7 +31,6 @@ public class LoginController {
 		do {
 			System.out.println("<:Welcome to RevBank:> \n");
 			User user = login();
-			// System.out.println(user.toString());
 			int type = userService.getType(user); 
 			if(type==1 | type == 2 || type == 3 || type == 4 ) {
 				switch(type){
@@ -55,7 +54,7 @@ public class LoginController {
 						break;
 				}			
 			}
-			System.out.println(" Retrieved user type: "+String.valueOf(type));
+			log.debug(" Retrieved user type: "+String.valueOf(type));
 		} while(shutdown == false);
 	}
 	
@@ -74,6 +73,7 @@ public class LoginController {
 					if (user != null) return user;
 					else {
 						System.out.println(" Incorrect eMail or password. \n Please try again. \n ");
+						log.debug(" Incorrect Email or password input");
 						return login();
 					}
 				case "n" :
@@ -82,13 +82,16 @@ public class LoginController {
 						System.out.println(" Please login to your new account. \n");
 					} else {
 						System.out.println(" Account creation failed. Please try again. \n");
+						log.warn(" User creation failed");
 					}
 					return login();
 				case "shutdown" :
 					user = userService.shutDownObject();
+					log.debug(" System shutdown object created.");
 					return user;		
 				default :
 					System.out.println(" Incorrect eMail or password. \n Please try again. \n");
+					log.debug(" Incorrect Email or password input");
 					return login();
 				}
 		}

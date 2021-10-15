@@ -5,7 +5,8 @@ import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
-
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import com.revature.models.Account;
 import com.revature.models.Request;
 import com.revature.models.User;
@@ -17,6 +18,7 @@ import com.revature.services.UserService;
 public class TellerController extends AccountHolderController{
 
 	private static Scanner scan = new Scanner(System.in);
+	private static Logger log = LoggerFactory.getLogger(TellerController.class);
 	private RequestService requestService = new RequestService();
 	private AccountService accountService = new AccountService();
 	private UserService userService = new UserService();
@@ -116,8 +118,12 @@ public class TellerController extends AccountHolderController{
 							break;
 						default : 
 							System.out.println( String.valueOf(input) );
-					}	
-					
+					}
+				case 3 :
+					requestService.closeRequest(requests.get(input));
+					break;
+				default : 
+					System.out.println(" Invalid entry \n");
 			}
 		
 		}
@@ -125,6 +131,7 @@ public class TellerController extends AccountHolderController{
 	public void viewUserInfo() {
 		scan.nextLine();
 		System.out.println(" Input the email address of the user you would like to see: \n");
+		@Email
 		String eMail = scan.nextLine().toLowerCase().trim();
 		User user = userService.getByEMail(eMail);
 		System.out.println(userService.displayUserInfo(user)+" \n\n ");

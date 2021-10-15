@@ -134,12 +134,13 @@ public class UserDAOImpl implements UserDAO {
 			AddressDAO addressDAO = new AddressDAOImpl();
 			
 			// Update users table
-			String sql = "UPDATE users SET password_key = ?, email_address = ?, WHERE user_id = ? ;";
+			String sql = "UPDATE users SET password_key = ?, email_address = ?, user_type = ? WHERE user_id = ? ;";
 			PreparedStatement statement = conn.prepareStatement(sql);
 			
 			int count = 0;
 			statement.setString(++count, user.getPass());
 			statement.setString(++count, user.getEMail());
+			statement.setInt(++count, user.getType());
 			statement.setInt(++count, user.getID());
 			statement.execute();
 			

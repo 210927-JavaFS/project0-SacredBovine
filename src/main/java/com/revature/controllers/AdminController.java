@@ -3,6 +3,11 @@ package com.revature.controllers;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Max;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -16,7 +21,7 @@ import com.revature.services.UserService;
 public class AdminController extends TellerController {
 		
 	private static Scanner scan = new Scanner(System.in);
-	private static Logger log = LoggerFactory.getLogger(LoginController.class);
+	private static Logger log = LoggerFactory.getLogger(AdminController.class);
 	private LoginService loginService = new LoginService();
 	private UserService userService = new UserService();
 	private AccountService accountService = new AccountService();
@@ -39,7 +44,6 @@ public class AdminController extends TellerController {
 				break;
 		}					
 	}
-	
 	public void adminMenu(User user) {
 		int input = 0;
 		while (input!=5) {
@@ -81,6 +85,7 @@ public class AdminController extends TellerController {
 								break;
 						}
 					}
+					input = 1;
 					break;
 				case 2 :	
 					input = 0;
@@ -99,8 +104,9 @@ public class AdminController extends TellerController {
 								System.out.println(" Invalid input \n");
 								break;
 						}
-					break;
 					}
+					input = 2;
+					break;
 				case 3 :
 					this.viewRequests();
 					break;
@@ -115,25 +121,76 @@ public class AdminController extends TellerController {
 			}
 		}
 	}
-	
-	public boolean setUserType() {
-		return false;
+	void selectUserMenu() {
+		scan.nextLine();
+		System.out.println(" Input the email address of the user you would like to see: \n");
+		String eMail = scan.nextLine().toLowerCase().trim();
+		int input = 0;
+		User user = userService.getByEMail(eMail);
+		//System.out.println(" user id : "+String.valueOf(user.getID()));
+		while (input!=3 && user.getID() > 0) {
+			System.out.println(userService.displayUserInfo(user)+" \n\n ");
+			System.out.println(" What would you like to edit? \n"
+					+ "   1: Account Type \n"
+					+ "   2: Phone Number \n"
+					+ "   3: Cancel");
+			input = scan.nextInt();
+			switch (input) {
+				case 1 :
+					while (input != 4) {
+						System.out.println(" Set User to what type? \n"
+								+ "   1: Customer \n"
+								+ "   2: Employee \n"
+								+ "   3: Bank Admin \n"
+								+ "   4: Cancel");
+						
+						input = scan.nextInt();
+						switch (input) {
+							case 1 :
+								userService.setType(user,input);
+								input = 4;
+								break;
+							case 2 :
+								userService.setType(user,input);
+								input = 4;
+								break;
+							case 3 :
+								userService.setType(user,input);
+								input = 4;
+								break;
+							case 4 :
+								break;
+							default: 
+								System.out.println(" Invalid input \n");
+								break;
+						}
+					}
+					input = 1;
+					break;
+				case 2:
+					scan.nextLine();
+					System.out.println(" Input new phone number \n");
+					userService.SetPhone(user, scan.nextLine().trim());
+					break;
+				case 3 :
+					break;
+				default :
+					System.out.println(" Invalid input \n");
+					break;
+			}
+		}
 	}
-	public void closeAccount(User user, Account account) {}
-	
-		
-
-/*methods CreateUser, ElevateUser, DeleteUser*/
-	
-	
-	
 // Accounts Admin Menu	
 	boolean depositFunds() {
 		System.out.println(" Input the account # to deposit funds into: ");
+		@Min(value = 10000000, message = "Invalid Account Number")
+		@Max(value = 99999999, message = "Invalid Account Number")
 		int input = scan.nextInt();
 		Account account = accountService.getByID(input);
 		if (account!=null) {
 			System.out.println(" Input the amount to deposit: ");
+			@Positive(message = "Input a positive Value")
+			@Digits(fraction = 2, integer = 10, message = "Input a valid amount")
 			double amount = scan.nextDouble();
 			boolean foo = accountService.deposit(account, amount);	
 			if (foo) {
@@ -151,10 +208,14 @@ public class AdminController extends TellerController {
 	}	
 	boolean withdrawFunds() {
 		System.out.println(" Input the account # to withdraw funds from: ");
+		@Min(value = 10000000, message = "Invalid Account Number")
+		@Max(value = 99999999, message = "Invalid Account Number")
 		int input = scan.nextInt();
 		Account account = accountService.getByID(input);
 		if (account!=null) {
 			System.out.println(" Input the amount to withdraw: $");
+			@Positive(message = "Input a positive Value")
+			@Digits(fraction = 2, integer = 10, message = "Input a valid amount")
 			double amount = scan.nextDouble();
 			boolean foo = accountService.deposit(account, amount);	
 			if (foo) {
@@ -172,6 +233,8 @@ public class AdminController extends TellerController {
 	}
 	boolean transferFunds() {
 		System.out.println(" Input the account # to transfer funds from: ");
+		@Min(value = 10000000, message = "Invalid Account Number")
+		@Max(value = 99999999, message = "Invalid Account Number")
 		int input = scan.nextInt();
 		Account accountSource = accountService.getByID(input);
 		if (accountSource!=null) {
@@ -180,6 +243,8 @@ public class AdminController extends TellerController {
 			Account accountDestination = accountService.getByID(input);
 			if (accountDestination!=null) {
 				System.out.println(" How much would you like to transfer: $");
+				@Positive(message = "Input a positive Value")
+				@Digits(fraction = 2, integer = 10, message = "Input a valid amount")
 				Double amount = scan.nextDouble();
 				if(accountService.withdraw(accountSource, amount)){
 					if(accountService.deposit(accountDestination, amount)){
@@ -203,6 +268,8 @@ public class AdminController extends TellerController {
 	}
 	boolean closeAccount() {
 		System.out.println(" Input the account # to close: ");
+		@Min(value = 10000000, message = "Invalid Account Number")
+		@Max(value = 99999999, message = "Invalid Account Number")
 		int input = scan.nextInt();
 		Account account = accountService.getByID(input);
 		if (account!=null) {
@@ -211,17 +278,20 @@ public class AdminController extends TellerController {
 						+"    1: Transfer remaining funds to another account \n"
 						+"    2: Withdraw remaining funds \n"
 						+"    3: Cancel");
-				input = scan.nextInt();
-				switch (input) {
+				int input2 = scan.nextInt();
+				switch (input2) {
 					case 1 :
 						Double amount = account.getBalance();
 						System.out.println(" Input the account # to transfer funds into: ");
-						input = scan.nextInt();
-						Account accountDestination = accountService.getByID(input);
+						@Min(value = 10000000, message = "Invalid Account Number")
+						@Max(value = 99999999, message = "Invalid Account Number")
+						int input3 = scan.nextInt();
+						Account accountDestination = accountService.getByID(input3);
 						if (account != null) {
 							if(accountService.withdraw(account, amount)){
 								if(accountService.deposit(accountDestination, amount)){
-									System.out.println(" Successfully transfered $"+amount+" from account #: "+account.getID()+" to account #: "+accountDestination.getID()+" \n");
+									System.out.println(" Successfully transfered $"+amount+" from account #: "+account.getID()
+									+" to account #: "+accountDestination.getID()+" \n");
 									return accountService.closeAccount(account);
 								} else {
 									System.out.println(" Could not deposit $"+amount+" into account #: "+accountDestination.getID()
@@ -271,62 +341,7 @@ public class AdminController extends TellerController {
 		}
 		return false;
 	}
-	void selectUserMenu() {
-		scan.nextLine();
-		System.out.println(" Input the email address of the user you would like to see: \n");
-		String eMail = scan.nextLine().toLowerCase().trim();
-		int input = 0;
-		User user = userService.getByEMail(eMail);
-		while (input!=3) {
-			System.out.println(userService.displayUserInfo(user)+" \n\n ");
-			System.out.println(" What would you like to edit? \n"
-					+ "   1: Account Type \n"
-					+ "   2: Phone Number \n"
-					+ "   3: Cancel");
-			input = scan.nextInt();
-			switch (input) {
-				case 1 :
-					while (input != 4) {
-						System.out.println(" Set User to what type? \n"
-								+ "   1: Customer \n"
-								+ "   2: Employee \n"
-								+ "   3: Bank Admin \n"
-								+ "   4: Cancel");
-						input = scan.nextInt();
-						switch (input) {
-							case 1 :
-								userService.setType(user,input);
-								input = 4;
-								break;
-							case 2 :
-								userService.setType(user,input);
-								input = 4;
-								break;
-							case 3 :
-								userService.setType(user,input);
-								input = 4;
-								break;
-							case 4 :
-								break;
-							default: 
-								System.out.println(" Invalid input \n");
-								break;
-						}
-					}
-					break;
-				case 2:
-					scan.nextLine();
-					System.out.println(" Input new phone number \n");
-					userService.SetPhone(user, scan.nextLine().trim());
-					break;
-				case 3 :
-					break;
-				default :
-					System.out.println(" Invalid input \n");
-					break;
-			}
-		}
-	}
+	
 }
 
 	

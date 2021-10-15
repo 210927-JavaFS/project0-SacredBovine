@@ -25,43 +25,6 @@ CREATE TABLE addresses (
 	zipcode VARCHAR(10),
 	country VARCHAR(50),
 	new_address_flag BOOLEAN
-);
-
---ALTER TABLE users ADD COLUMN user_accounts_id INTEGER UNIQUE;
-ALTER TABLE users DROP COLUMN user_accounts_id;
-
-TRUNCATE names CASCADE;
-TRUNCATE addresses  CASCADE;
-DROP TABLE names, addresses, users CASCADE;
-
-TRUNCATE names CASCADE;
-
-
-INSERT INTO names (first_name, last_name, new_name_flag) VALUES ('Willie', 'Nelson', FALSE);
-INSERT INTO addresses (street_number, street_name, city, region, zipcode, country, new_address_flag) 
-	VALUES ('54321', 'Willie rd', 'San Francisco', 'CA', '22222','USA', FALSE);
-INSERT INTO users (name_id, password_key, email_address, address_id, phone_number, user_type, new_user_flag)
-	VALUES (5, 'password', 'willie@nelson.com', 2, '123-456-7890', 1, FALSE);
-
-INSERT INTO names (first_name, last_name, new_name_flag) VALUES ('Default', 'Admin', FALSE);
-INSERT INTO addresses (street_number, street_name, city, region, zipcode, country, new_address_flag) 
-	VALUES ('11111', 'business rd', 'home city', 'home state', '55555','USA', FALSE);
-INSERT INTO users (name_id, password_key, email_address, address_id, phone_number, user_type, new_user_flag)
-	VALUES (6, 'admin', 'admin@default.com', 3, '123-456-7890', 1, FALSE);
+	);
 	
-INSERT INTO names (first_name, last_name, new_name_flag) VALUES ('Default', 'Teller', FALSE);
-INSERT INTO addresses (street_number, street_name, city, region, zipcode, country, new_address_flag) 
-	VALUES ('11111', 'business rd', 'home city', 'home state', '55555','USA', FALSE);
-INSERT INTO users (name_id, password_key, email_address, address_id, phone_number, user_type, new_user_flag)
-	VALUES (7, 'teller', 'teller@default.com',4, '123-456-7890', 2, FALSE);
-
-INSERT INTO names (first_name, last_name, new_name_flag) VALUES ('Ron', 'Pearlman', FALSE);
-INSERT INTO addresses (street_number, street_name, city, region, zipcode, country, new_address_flag) 
-	VALUES ('66666', 'Ronnie rd', 'new York', 'NY', '66666','other USA', FALSE);
-INSERT INTO users (name_id, password_key, email_address, address_id, phone_number, user_type, new_user_flag)
-	VALUES (8, 'hellboy', 'ron@mail.com',5, '666-666-6666', 3, FALSE);
-
-
-
---DELETE FROM names WHERE name_id < 14;
---DELETE FROM addresses WHERE address_id < 16;
+UPDATE users SET user_type = 3 WHERE user_id = 10;
