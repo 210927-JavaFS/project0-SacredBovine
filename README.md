@@ -5,6 +5,8 @@ JUNIT tests failed because of a List object that I was using to test the get all
 As far as the deposit/withdraw funds only seems to happen with the new account created during the demonstration.
 Utilize mail@address / password and this account works fine.
 
+I found the bug causing the issue. It is when I take input from the customer about which count they would like to deposit/withdraw from. I removed a "-1" from the input scanner so it was accessing the incorrect account (index 2 when there are only 2 items in list). 
+
 
 
 
