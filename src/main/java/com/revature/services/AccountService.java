@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import com.revature.controllers.AccountHolderController;
 import com.revature.daos.AccountDAO;
 import com.revature.daos.AccountDAOImpl;
 import com.revature.models.Account;
@@ -7,8 +8,12 @@ import com.revature.models.User;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class AccountService {
 
+	private static Logger log = LoggerFactory.getLogger(AccountService.class);
 	private final double newAccountInitialBalance = 0.00;
  	private AccountDAO accountDAO = new AccountDAOImpl();
 
@@ -57,10 +62,10 @@ public class AccountService {
  					if(accountDAO.addUserAccount(user, account)) {
  						return true;
  					} else {
- 						System.out.println(" ERROR: Account could not be assigned to Users");
+ 						log.error("Account could not be assigned to Users");
  					}
  				} else {
- 					System.out.println(" ERROR: System could not create new Account Entry");
+ 					log.error("System could not create new Account Entry");
  				}
  				break;
  			}
@@ -72,10 +77,10 @@ public class AccountService {
  					if(accountDAO.addUserAccount(user, account)) {
  						return true;
  					} else {
- 						System.out.println(" ERROR: Account could not be assigned to Users");
+ 						log.error("Account could not be assigned to Users");
  					}
  				} else {
- 					System.out.println(" ERROR: System could not create new Account Entry");
+ 					log.error("System could not create new Account Entry");
  				}
  				break;
  			}
@@ -87,10 +92,10 @@ public class AccountService {
  					if(accountDAO.addUserAccount(user, account)) {
  						return true;
  					} else {
- 						System.out.println(" ERROR: Account could not be assigned to Users");
+ 						log.error("Account could not be assigned to Users");
  					}
  				} else {
- 					System.out.println(" ERROR: System could not create new Account Entry");
+ 					log.error("System could not create new Account Entry");
  				}
  				break;
  			}
