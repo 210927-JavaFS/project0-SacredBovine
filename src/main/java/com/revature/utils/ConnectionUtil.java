@@ -14,11 +14,9 @@ public class ConnectionUtil {
 		}
 		
 		String url = "jdbc:postgresql://javafs-mydb.cxais73emmx9.us-east-2.rds.amazonaws.com:5432/javafs210927";
-		String username = "postgres"; //It is possible to use env variables to hide this information
-		String password = "password"; //you would access them with System.getenv("var-name");
+		String username = "postgres"; 
+		String password = "password"; 
 		
 		return DriverManager.getConnection(url, username, password);
 	}
 }
-
-//will leave as is for now
