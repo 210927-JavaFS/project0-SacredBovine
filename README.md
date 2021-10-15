@@ -1,3 +1,30 @@
+# Known Bugs
+
+JUNIT tests failed because of a List object that I was using to test the get all accounts method. Comment them out and the JUnit tests passed. 
+
+As far as the deposit/withdraw funds only seems to happen with the new account created during the demonstration.
+Utilize mail@address / password and this account works fine.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Project 0
 
 **Description**
