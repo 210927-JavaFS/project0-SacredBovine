@@ -3,6 +3,8 @@ package com.revature.services;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +27,7 @@ public class AccountServiceTest {
 	public static double newBal1;
 	public static double newBal2;
 	public static boolean result;
-		
+	public static List<Account>	accounts;
 	@BeforeAll
 	public static void setAccountService() {
 		accountService = new AccountService();
@@ -46,6 +48,9 @@ public class AccountServiceTest {
 		account2.setBalance(bal2);
 		accountDAO.updateAccount(account1);
 		accountDAO.updateAccount(account2);
+		accounts.clear();
+		accounts.add(account1);
+		accounts.add(account2);
 	}
 	
 	@Test
@@ -84,5 +89,10 @@ public class AccountServiceTest {
 		assertTrue(!result);
 		result = accountService.transfer(account2, account1, bal4);
 		assertTrue(!result);
+	}
+	
+	@Test
+	public void testGetAllByID() {
+		assertEquals( accounts, accountService.getAllByID(12));
 	}
 }

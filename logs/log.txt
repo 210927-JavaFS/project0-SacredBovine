@@ -31,3 +31,7 @@
 23:37:18.534 [] [main] DEBUG c.r.controllers.LoginController -  Retrieved user type: 2
 23:37:22.701 [] [main] DEBUG c.r.controllers.LoginController -  System shutdown object created.
 23:37:22.701 [] [main] DEBUG c.r.controllers.LoginController -  Retrieved user type: 4
+08:41:06.449 [] [main] ERROR com.revature.daos.UserDAOImpl - [Ljava.lang.StackTraceElement;@62ddbd7e
+08:46:34.296 [] [main] DEBUG c.r.controllers.LoginController -  Retrieved user type: 2
+08:46:37.612 [] [main] DEBUG c.r.controllers.LoginController -  System shutdown object created.
+08:46:37.612 [] [main] DEBUG c.r.controllers.LoginController -  Retrieved user type: 4

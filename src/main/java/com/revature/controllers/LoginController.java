@@ -110,6 +110,11 @@ public class LoginController {
 			scan.next();
 			return login();
 		}
+		catch (NullPointerException e) 
+		{
+			log.error(e.getStackTrace().toString());
+			System.out.println(" There was an error connecting to the Database. Please try again. \n");
+		}
 		return userService.getDummy();
 	}
 
