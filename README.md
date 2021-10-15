@@ -7,6 +7,8 @@ Utilize mail@address / password and this account works fine.
 
 I found the bug causing the issue. It is when I take input from the customer about which count they would like to deposit/withdraw from. I removed a "-1" from the input scanner so it was accessing the incorrect account (index 2 when there are only 2 items in list). 
 
+I learned that you don't debug at 1 AM the morning it is due. 
+
 
 
 
