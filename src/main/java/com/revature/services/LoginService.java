@@ -2,14 +2,9 @@ package com.revature.services;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
-
 import com.revature.daos.UserDAO;
 import com.revature.daos.UserDAOImpl;
 import com.revature.models.User;
-import com.revature.services.UserService;
 
 public class LoginService {
 	
@@ -27,4 +22,5 @@ public class LoginService {
 		}
 		return null;
 	}
+
 }

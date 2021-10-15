@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
 
 import com.revature.models.Address;
 import com.revature.utils.ConnectionUtil;
@@ -153,4 +152,5 @@ public class AddressDAOImpl implements AddressDAO{
 		}
 		return 0;
 	}
+
 }

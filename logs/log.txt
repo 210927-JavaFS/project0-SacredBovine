@@ -1,30 +1,33 @@
-18:56:17.423 [] [main] DEBUG c.r.controllers.LoginController -  Incorrect Email or password input
-18:56:52.482 [] [main] DEBUG c.r.controllers.LoginController -  System shutdown object created.
-18:56:52.482 [] [main] DEBUG c.r.controllers.LoginController -  Retrieved user type: 4
-18:57:43.585 [] [main] DEBUG c.r.controllers.LoginController -  Incorrect Email or password input
-19:22:28.115 [] [main] DEBUG c.r.controllers.LoginController -  Incorrect Email or password input
-19:23:34.916 [] [main] DEBUG c.r.controllers.LoginController -  Retrieved user type: 1
-19:23:37.911 [] [main] DEBUG c.r.controllers.LoginController -  System shutdown object created.
-19:23:37.911 [] [main] DEBUG c.r.controllers.LoginController -  Retrieved user type: 4
-19:41:42.270 [] [main] DEBUG c.r.controllers.LoginController -  Retrieved user type: 3
-19:41:57.123 [] [main] DEBUG c.r.controllers.LoginController -  Incorrect Email or password input
-19:42:15.993 [] [main] DEBUG c.r.controllers.LoginController -  Incorrect Email or password input
-19:42:39.375 [] [main] DEBUG c.r.controllers.LoginController -  Retrieved user type: 1
-19:42:42.987 [] [main] DEBUG c.r.controllers.LoginController -  System shutdown object created.
-19:42:42.987 [] [main] DEBUG c.r.controllers.LoginController -  Retrieved user type: 4
-19:59:41.944 [] [main] ERROR com.revature.daos.NameDAOImpl - [Ljava.lang.StackTraceElement;@6cdba6dc
-20:00:19.825 [] [main] DEBUG c.r.controllers.LoginController -  Retrieved user type: 3
-20:00:22.021 [] [main] DEBUG c.r.controllers.LoginController -  System shutdown object created.
-20:00:22.021 [] [main] DEBUG c.r.controllers.LoginController -  Retrieved user type: 4
-20:03:53.271 [] [main] DEBUG c.r.controllers.LoginController -  Retrieved user type: 3
-20:03:55.836 [] [main] DEBUG c.r.controllers.LoginController -  System shutdown object created.
-20:03:55.836 [] [main] DEBUG c.r.controllers.LoginController -  Retrieved user type: 4
-20:04:48.048 [] [main] DEBUG c.r.controllers.LoginController -  Retrieved user type: 1
-20:04:52.123 [] [main] DEBUG c.r.controllers.LoginController -  System shutdown object created.
-20:04:52.123 [] [main] DEBUG c.r.controllers.LoginController -  Retrieved user type: 4
-20:07:03.906 [] [main] ERROR com.revature.daos.NameDAOImpl - [Ljava.lang.StackTraceElement;@2609b277
-20:07:18.711 [] [main] DEBUG c.r.controllers.LoginController -  Retrieved user type: 3
-20:08:09.056 [] [main] DEBUG c.r.controllers.LoginController -  Retrieved user type: 2
-20:08:23.438 [] [main] DEBUG c.r.controllers.LoginController -  Incorrect Email or password input
-20:12:35.075 [] [main] DEBUG c.r.controllers.LoginController -  Retrieved user type: 2
-20:13:18.853 [] [main] DEBUG c.r.controllers.LoginController -  Retrieved user type: 3
+22:57:17.668 [] [main] DEBUG c.r.controllers.AdminController - It's looking for :: 
+
+22:58:14.511 [] [main] DEBUG c.r.controllers.LoginController -  Incorrect Email or password input
+22:58:31.779 [] [main] DEBUG c.r.controllers.AdminController - It's looking for :: 
+
+22:59:34.785 [] [main] DEBUG c.r.controllers.AdminController - It's looking for :: 
+
+23:00:17.444 [] [main] DEBUG c.r.controllers.AdminController - It's looking for :: 
+
+23:01:02.552 [] [main] DEBUG c.r.controllers.AdminController - It's looking for :: 
+
+23:02:37.489 [] [main] DEBUG c.r.controllers.AdminController - It's looking for :: 
+
+23:06:47.676 [] [main] DEBUG c.r.controllers.AdminController - It's looking for :: 
+
+23:11:18.972 [] [main] DEBUG c.r.controllers.AdminController - It's looking for :employee@bank.com: 
+
+23:11:54.755 [] [main] ERROR c.r.controllers.AdminController - [Ljava.lang.StackTraceElement;@934b6cb
+23:12:00.798 [] [main] ERROR c.r.controllers.TellerController - [Ljava.lang.StackTraceElement;@55cf0d14
+23:12:04.057 [] [main] DEBUG c.r.controllers.LoginController -  Retrieved user type: 3
+23:12:06.464 [] [main] DEBUG c.r.controllers.LoginController -  System shutdown object created.
+23:12:06.465 [] [main] DEBUG c.r.controllers.LoginController -  Retrieved user type: 4
+23:35:22.608 [] [main] DEBUG c.r.controllers.LoginController -  Incorrect Email or password input
+23:35:55.973 [] [main] DEBUG c.r.controllers.LoginController -  Retrieved user type: 1
+23:35:59.456 [] [main] DEBUG c.r.controllers.LoginController -  System shutdown object created.
+23:35:59.456 [] [main] DEBUG c.r.controllers.LoginController -  Retrieved user type: 4
+23:37:05.071 [] [main] INFO  c.r.controllers.TellerController - Request :62 Approved.
+23:37:05.735 [] [main] INFO  c.r.controllers.TellerController - Request :62 Declined.
+23:37:14.864 [] [main] INFO  c.r.controllers.TellerController - Request :63 Approved.
+23:37:15.455 [] [main] INFO  c.r.controllers.TellerController - Request :63 Declined.
+23:37:18.534 [] [main] DEBUG c.r.controllers.LoginController -  Retrieved user type: 2
+23:37:22.701 [] [main] DEBUG c.r.controllers.LoginController -  System shutdown object created.
+23:37:22.701 [] [main] DEBUG c.r.controllers.LoginController -  Retrieved user type: 4

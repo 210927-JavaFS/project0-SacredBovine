@@ -2,10 +2,6 @@ package com.revature.services;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
-
 import com.revature.daos.RequestDAO;
 import com.revature.daos.RequestDAOImpl;
 import com.revature.models.Request;
@@ -24,5 +20,5 @@ public class RequestService {
 	public boolean closeRequest(Request request) {
 		return requestDAO.closeRequest(request);
 	}
-}
 
+}

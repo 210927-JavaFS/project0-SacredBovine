@@ -8,9 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
 
-import com.revature.controllers.LoginController;
 import com.revature.models.Account;
 import com.revature.models.User;
 import com.revature.utils.ConnectionUtil;
@@ -180,6 +178,7 @@ public class AccountDAOImpl implements AccountDAO {
 		}
 		return false;
 	}
+	
 	public boolean deleteUserAccount(User user, Account account) { // I'm sure I don't NEED this but it verifies the user associated with account before removing
 		try(Connection conn = ConnectionUtil.getConnection()){
 			String sql = "DELETE FROM user_accounts (user_id = ?, account_number = ?)"
@@ -210,11 +209,4 @@ public class AccountDAOImpl implements AccountDAO {
 		return false;
 	}
 
-	
-
-	
-	
-	
-	
-	
 }

@@ -1,18 +1,11 @@
 package com.revature.services;
 
-import java.math.BigDecimal;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
+import com.revature.throwables.InvalidMoneyRuntimeException;
 
 public class VerificationService {
 	
-	public boolean verifyMoney(double amount)
-	{
-		
-		BigDecimal money = BigDecimal.valueOf(amount);
-		//if (amount > 0 && money. <= 2 ) return true;
-		return false;
+	public void verifyMoney(double amount) throws InvalidMoneyRuntimeException {
+		if (!(amount > 0 && 100*amount % 1 == 0)) throw new InvalidMoneyRuntimeException();
 	}
+
 }

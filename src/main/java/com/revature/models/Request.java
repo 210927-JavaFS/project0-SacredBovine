@@ -1,9 +1,5 @@
 package com.revature.models;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
-
 public class Request {
 	/*Hold UserID , request type, and be able to be stored in DB for employees/admins to access/approve*/
 	private int requestID;
@@ -55,4 +51,5 @@ public class Request {
 		return " User : " + String.valueOf(this.requestUserID) +" \n Request type: "
 				+ this.requestMessage +" \n";
 	}
+
 }

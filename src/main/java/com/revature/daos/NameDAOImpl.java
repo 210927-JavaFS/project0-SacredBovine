@@ -7,12 +7,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.revature.models.Name;
-
 import com.revature.utils.ConnectionUtil;
 
 public class NameDAOImpl implements NameDAO{
@@ -108,7 +106,7 @@ public class NameDAOImpl implements NameDAO{
 			if(result.next()) {
 				nameID = result.getInt(1);
 			}
-			else System.out.println("Could not fetch name id"); 
+			else log.error("Could not fetch name id"); 
 			
 			if (nameID >= 0) {
 				sql = "UPDATE names SET new_name_flag = FALSE WHERE name_id = ?;";
@@ -124,5 +122,5 @@ public class NameDAOImpl implements NameDAO{
 		}
 		return 0;
 	}	
-	
+
 }

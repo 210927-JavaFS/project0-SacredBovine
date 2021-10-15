@@ -10,4 +10,5 @@ public interface NameDAO {
 	public Name findById(int id);
 	public int addName(Name name);
 	public boolean updateName(Name name);
+
 }

@@ -1,22 +1,14 @@
 package com.revature.controllers;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
 
-
-import javax.validation.constraints.AssertTrue;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
-import com.revature.models.Address;
-import com.revature.models.Name;
-import com.revature.models.User;
 import com.revature.services.PasswordService;
 import com.revature.services.UserService;
 
@@ -27,15 +19,12 @@ public class UserCreationController {
 	private UserService userService = new UserService();
 	private PasswordService passwordService = new PasswordService();
 
-// This method requires all sorts of input validation	
 	public boolean createNewUser() {
 		try {
 		
 			System.out.println("Please enter your email address: ");
 			@Email
 			String eMail = scan.nextLine().toLowerCase();
-		
-// Password stuff. Know which hashing, just need to implement with service or utility.
 			System.out.println("Please enter a password: ");
 			@NotEmpty
 			String password = passwordService.toHexString(passwordService.getSHA(scan.nextLine().trim()));
@@ -72,7 +61,13 @@ public class UserCreationController {
 		{
 			System.out.println("Could not hash pass.");
 			log.error(" Could not Hash password. "+e.getStackTrace().toString());
+			System.out.println(" There was an error creating your account. Please try again. \n");
+		}
+		catch(InputMismatchException e) {
+			log.error(e.getStackTrace().toString());
+			System.out.println(" There was an error creating your account. Please try again. \n");
 		}
 		return false;
 	}
+
 }

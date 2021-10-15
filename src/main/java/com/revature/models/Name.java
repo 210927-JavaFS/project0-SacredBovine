@@ -1,9 +1,6 @@
 package com.revature.models;
 
 import java.util.Objects;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
 
 public class Name {
 

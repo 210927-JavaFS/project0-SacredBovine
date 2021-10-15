@@ -1,8 +1,5 @@
 package com.revature.models;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
 import java.util.Objects;
 
 public class Account {
@@ -63,5 +60,5 @@ public class Account {
 	public String toString() {
 		return type + " account : "+ String.valueOf(accountID)+": $"+String.valueOf(balance);
 	}
-	
+
 }

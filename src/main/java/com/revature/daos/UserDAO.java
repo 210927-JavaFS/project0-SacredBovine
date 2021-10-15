@@ -9,8 +9,8 @@ public interface UserDAO {
 
 	public List<User> getAll();
 	public boolean addUser(User user);
-	//public boolean deleteUser(User user); //must close and delete any Accounts for referential integrity
 	public boolean updateUser(User user);  
 	public User getByID(int userID); 
 	public User getByEMail(String eMail); 
+
 }

@@ -1,27 +1,21 @@
 package com.revature.services;
 
-import com.revature.Driver;
 import com.revature.daos.AccountDAO;
 import com.revature.daos.AccountDAOImpl;
 import com.revature.models.Account;
 import com.revature.models.User;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AccountService {
 
-	private static Logger log = LoggerFactory.getLogger(AccountService.class);
 	private final double newAccountInitialBalance = 0.00;
  	private AccountDAO accountDAO = new AccountDAOImpl();
 
 // AccountHolder and Admin use Methods.
 	public boolean deposit(Account account, double amount){
  		double balance = account.getBalance();
- 		if(amount > 0) {
+ 		if(amount > 0 && 100*amount%1 == 0) {
  			balance += amount;
  			account.setBalance(balance);
  			return accountDAO.updateAccount(account);
@@ -30,7 +24,7 @@ public class AccountService {
  	} 
 	public boolean withdraw(Account account, double amount){
  		double balance = account.getBalance();
- 		if(amount > 0) {
+ 		if(amount > 0 && 100*amount%1 == 0) {
  			if (balance-amount >= 0) {
  				balance -= amount;
  		 		account.setBalance(balance);		 		
@@ -41,12 +35,14 @@ public class AccountService {
  		return false;
   	}
   	public boolean transfer(Account source, Account destination, double amount) {
- 		if(withdraw(source, amount)) {
- 			if(deposit(destination, amount)) {
- 				return true;
- 			}
- 			deposit(source, amount);
- 		} 
+ 		if(amount > 0 && 100*amount%1 == 0) {
+ 			if(withdraw(source, amount)) {
+ 				if(deposit(destination, amount)) {
+ 					return true;
+ 				}
+ 				deposit(source, amount);
+ 			} 
+ 		}
  		return false;
  	}
  	

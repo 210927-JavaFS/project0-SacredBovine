@@ -27,4 +27,3 @@ CREATE TABLE addresses (
 	new_address_flag BOOLEAN
 	);
 	
-UPDATE users SET user_type = 3 WHERE user_id = 10;
